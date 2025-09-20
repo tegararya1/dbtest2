@@ -1,199 +1,146 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin Dashboard — Damayanti</title>
-  <style>
-    :root{
-      --bg:#eef3ff;
-      --card:#fff;
-      --ink:#111827;
-      --muted:#6b7280;
-      --brand:#2563eb;
-      --ok:#10b981;
-      --warn:#f59e0b;
-      --bad:#ef4444;
-      --ring: rgba(37,99,235,.25);
-      --radius:16px
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font:14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans";
-      background:linear-gradient(#f7fbff,#e9f0ff) fixed;
-      color:var(--ink);
-    }
-    header{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:16px 20px; backdrop-filter:saturate(140%) blur(6px);
-      position:sticky; top:0; z-index:10; background:rgba(255,255,255,.7); border-bottom:1px solid #e5e7eb;
-    }
-    h1{margin:0; font-size:18px}
-    .wrap{max-width:1180px; margin:18px auto; padding:0 16px}
-    .tabs{display:flex; gap:8px; flex-wrap:wrap}
-    .tab{
-      padding:8px 12px; border-radius:999px; background:#eef2ff; color:#1e3a8a; border:1px solid #c7d2fe;
-      cursor:pointer; user-select:none;
-    }
-    .tab.active{background:var(--brand); color:#fff; border-color:var(--brand)}
-    .card{
-      background:var(--card); border-radius:var(--radius); box-shadow:0 10px 30px rgba(0,0,0,.05); border:1px solid #e5e7eb;
-      padding:16px;
-    }
-    .grid{display:grid; gap:16px}
-    .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .g4{grid-template-columns:repeat(4,minmax(0,1fr))}
-    @media (max-width:960px){.g2,.g3,.g4{grid-template-columns:1fr}}
-    table{width:100%; border-collapse:separate; border-spacing:0}
-    th,td{padding:10px 12px; border-bottom:1px solid #eef2f7; vertical-align:top}
-    th{font-weight:600; text-align:left; color:#374151; background:#f9fafb}
-    tr:hover td{background:#fafcff}
-    .toolbar{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-    input,select,textarea{
-      padding:10px 12px; border:1px solid #d1d5db; border-radius:10px; outline:none; min-height:38px; width:100%;
-      background:#fff;
-    }
-    input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring); border-color:var(--brand)}
-    button{
-      height:38px; padding:0 12px; border:1px solid #d1d5db; background:#fff; border-radius:10px; cursor:pointer
-    }
-    .btn{background:var(--brand); border-color:var(--brand); color:#fff}
-    .btn.ok{background:var(--ok); border-color:var(--ok)}
-    .btn.warn{background:var(--warn); border-color:var(--warn)}
-    .btn.bad{background:var(--bad); border-color:var(--bad)}
-    .muted{color:var(--muted)}
-    .right{margin-left:auto}
-    .badge{display:inline-block; padding:.15rem .5rem; border-radius:999px; font-size:12px; border:1px solid #e5e7eb; background:#f9fafb}
-    .hidden{display:none!important}
-    .mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mt24{margin-top:24px}
-    .center{display:flex; align-items:center; justify-content:center}
-    .login-box{max-width:420px; margin:40px auto}
-    .note{font-size:12px; color:#6b7280}
-    .hr{height:1px; background:#eef2f7; margin:10px 0}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Dashboard — Damayanti</title>
+<style>
+:root{
+  --bg:#eef3ff; --card:#fff; --ink:#111827; --muted:#6b7280;
+  --brand:#2563eb; --ok:#10b981; --warn:#f59e0b; --bad:#ef4444;
+  --ring:rgba(37,99,235,.25); --radius:16px
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(#f7fbff,#e9f0ff);font:14px/1.5 system-ui}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:rgba(255,255,255,.7);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}
+h1{margin:0;font-size:18px}
+.wrap{max-width:1180px;margin:18px auto;padding:0 16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{padding:8px 12px;border-radius:999px;background:#eef2ff;color:#1e3a8a;border:1px solid #c7d2fe;cursor:pointer}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:0 10px 30px rgba(0,0,0,.05);border:1px solid #e5e7eb;padding:16px}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:960px){.g2,.g3{grid-template-columns:1fr}}
+table{width:100%;border-collapse:separate;border-spacing:0}
+th,td{padding:10px 12px;border-bottom:1px solid #eef2f7;vertical-align:top}
+th{background:#f9fafb;font-weight:600;text-align:left}
+tr:hover td{background:#fafcff}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input,select,textarea{width:100%;min-height:38px;padding:10px 12px;border:1px solid #d1d5db;border-radius:10px;background:#fff;outline:none}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring);border-color:var(--brand)}
+button{height:38px;padding:0 12px;border:1px solid #d1d5db;background:#fff;border-radius:10px;cursor:pointer}
+.btn{background:var(--brand);border-color:var(--brand);color:#fff}.btn.ok{background:var(--ok);border-color:var(--ok)}
+.btn.warn{background:var(--warn);border-color:var(--warn)} .btn.bad{background:var(--bad);border-color:var(--bad)}
+.muted{color:var(--muted)} .right{margin-left:auto}
+.badge{display:inline-block;padding:.15rem .5rem;border-radius:999px;font-size:12px;border:1px solid #e5e7eb;background:#f9fafb}
+.hidden{display:none!important} .note{font-size:12px;color:#6b7280} .mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
+.hr{height:1px;background:#eef2f7;margin:10px 0}
+</style>
 </head>
 <body>
 <header>
   <h1>Admin Dashboard — Damayanti</h1>
-  <div class="toolbar" id="authBar">
-    <span id="authInfo" class="muted"></span>
+  <div class="toolbar">
+    <span id="authInfo" class="muted">Belum login</span>
     <button id="btnLogout" class="hidden">Keluar</button>
   </div>
 </header>
 
 <div class="wrap">
-
   <!-- LOGIN -->
-  <section id="loginSection" class="login-box card">
+  <section id="loginSection" class="card" style="max-width:420px;margin:40px auto">
     <h3 style="margin:0 0 8px 0;">Masuk Admin</h3>
-    <div class="muted mt8">Gunakan kredensial admin (menghasilkan Bearer token untuk endpoint Admin only).</div>
-    <div class="mt16 grid g2">
-      <div>
-        <label class="muted">Email</label>
-        <input id="loginEmail" type="email" placeholder="admin@email.com">
-      </div>
-      <div>
-        <label class="muted">Password</label>
-        <input id="loginPass" type="password" placeholder="••••••••">
-      </div>
+    <div class="note">Endpoint: <code>POST /api/auth/login</code></div>
+    <div class="grid g2 mt12">
+      <div><label class="muted">Email</label><input id="loginEmail" type="email" placeholder="admin@email.com"></div>
+      <div><label class="muted">Password</label><input id="loginPass" type="password" placeholder="••••••••"></div>
     </div>
-    <div class="mt16 toolbar">
+    <div class="toolbar mt12">
       <button id="btnLogin" class="btn">Masuk</button>
       <span id="loginMsg" class="muted"></span>
     </div>
     <div class="hr"></div>
-    <div class="note">
-      Catatan: Tanpa login, Anda masih bisa melihat data (GET). Untuk aksi <b>Admin only</b> (POST/PUT/DELETE Containers & Students) Anda wajib login.
-    </div>
+    <div class="note">Tanpa login Anda tetap bisa <b>GET</b> data. Aksi <b>Tambah/Ubah/Hapus</b> membutuhkan token admin.</div>
   </section>
 
-  <!-- NAV TABS -->
+  <!-- MAIN -->
   <section id="mainSection" class="hidden">
     <div class="tabs" id="tabs">
       <div class="tab active" data-tab="summary">Ringkasan</div>
       <div class="tab" data-tab="containers">Containers</div>
       <div class="tab" data-tab="students">Students</div>
+      <div class="tab" data-tab="sheeps">Sheeps</div>
       <div class="tab" data-tab="sensor">Sensor Data</div>
       <div class="tab" data-tab="reports">Reports</div>
       <div class="tab" data-tab="sheepReports">Sheep Reports</div>
     </div>
 
-    <!-- ====== RINGKASAN ====== -->
+    <!-- SUMMARY -->
     <div id="tab-summary" class="mt16">
       <div class="grid g3">
-        <div class="card">
-          <div class="muted">Total Containers</div>
-          <div id="sumContainers" style="font-size:28px;font-weight:700">—</div>
-        </div>
-        <div class="card">
-          <div class="muted">Total Students</div>
-          <div id="sumStudents" style="font-size:28px;font-weight:700">—</div>
-        </div>
-        <div class="card">
-          <div class="muted">Total Sheeps</div>
-          <div id="sumSheeps" style="font-size:28px;font-weight:700">—</div>
-        </div>
-        <div class="card">
-          <div class="muted">Total Sensor Records</div>
-          <div id="sumSensor" style="font-size:28px;font-weight:700">—</div>
-        </div>
-        <div class="card">
-          <div class="muted">Total Reports</div>
-          <div id="sumReports" style="font-size:28px;font-weight:700">—</div>
-        </div>
-        <div class="card">
-          <div class="muted">Total Sheep Reports</div>
-          <div id="sumSheepReports" style="font-size:28px;font-weight:700">—</div>
-        </div>
+        <div class="card"><div class="muted">Total Containers</div><div id="sumContainers" style="font-weight:700;font-size:28px">—</div></div>
+        <div class="card"><div class="muted">Total Students</div><div id="sumStudents" style="font-weight:700;font-size:28px">—</div></div>
+        <div class="card"><div class="muted">Total Sheeps</div><div id="sumSheeps" style="font-weight:700;font-size:28px">—</div></div>
+        <div class="card"><div class="muted">Total Sensor Records</div><div id="sumSensor" style="font-weight:700;font-size:28px">—</div></div>
+        <div class="card"><div class="muted">Total Reports</div><div id="sumReports" style="font-weight:700;font-size:28px">—</div></div>
+        <div class="card"><div class="muted">Total Sheep Reports</div><div id="sumSheepReports" style="font-weight:700;font-size:28px">—</div></div>
       </div>
     </div>
 
-    <!-- ====== CONTAINERS (CRUD) ====== -->
+    <!-- CONTAINERS -->
     <div id="tab-containers" class="mt16 hidden">
       <div class="card">
         <div class="toolbar">
           <strong>Containers</strong>
-          <span class="badge">Admin only untuk tambah/ubah/hapus</span>
+          <span class="badge">Admin only tambah/ubah/hapus</span>
           <input id="searchContainers" placeholder="Cari nama/kode..." style="max-width:260px" class="right">
           <button id="btnNewContainer" class="btn">Tambah</button>
         </div>
         <div class="mt12" style="overflow:auto">
           <table id="tblContainers">
-            <thead>
-              <tr>
-                <th>ID</th><th>Nama/Kode</th><th>Lokasi</th><th>Dibuat</th><th style="width:160px">Aksi</th>
-              </tr>
-            </thead>
+            <thead><tr><th>ID</th><th>Nama/Kode</th><th>Lokasi</th><th>Dibuat</th><th style="width:160px">Aksi</th></tr></thead>
             <tbody><tr><td colspan="5" class="muted">Memuat…</td></tr></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ====== STUDENTS (CRUD) ====== -->
+    <!-- STUDENTS -->
     <div id="tab-students" class="mt16 hidden">
       <div class="card">
         <div class="toolbar">
           <strong>Students</strong>
-          <span class="badge">Admin only untuk tambah/ubah/hapus</span>
+          <span class="badge">Admin only tambah/ubah/hapus</span>
           <input id="searchStudents" placeholder="Cari nama…" style="max-width:260px" class="right">
           <button id="btnNewStudent" class="btn">Tambah</button>
         </div>
         <div class="mt12" style="overflow:auto">
           <table id="tblStudents">
-            <thead>
-              <tr>
-                <th>ID</th><th>Nama</th><th>Dibuat</th><th style="width:160px">Aksi</th>
-              </tr>
-            </thead>
+            <thead><tr><th>ID</th><th>Nama</th><th>Dibuat</th><th style="width:160px">Aksi</th></tr></thead>
             <tbody><tr><td colspan="4" class="muted">Memuat…</td></tr></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ====== SENSOR DATA ====== -->
+    <!-- SHEEPS -->
+    <div id="tab-sheeps" class="mt16 hidden">
+      <div class="card">
+        <div class="toolbar">
+          <strong>Sheeps</strong>
+          <span class="badge">Admin only tambah/ubah/hapus</span>
+          <input id="searchSheeps" placeholder="Cari nama kambing…" style="max-width:260px" class="right">
+          <button id="btnNewSheep" class="btn">Tambah</button>
+        </div>
+        <div class="mt12" style="overflow:auto">
+          <table id="tblSheeps">
+            <thead><tr><th>ID</th><th>Nama</th><th>Umur</th><th>Dibuat</th><th style="width:160px">Aksi</th></tr></thead>
+            <tbody><tr><td colspan="5" class="muted">Memuat…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SENSOR DATA -->
     <div id="tab-sensor" class="mt16 hidden">
       <div class="card">
         <div class="toolbar">
@@ -204,10 +151,7 @@
         <div class="mt12" style="overflow:auto">
           <table id="tblSensor">
             <thead>
-              <tr>
-                <th>ID</th><th>Container</th><th>Recorded</th>
-                <th>T</th><th>H</th><th>G</th><th>pH</th><th>Status</th><th style="width:160px">Aksi</th>
-              </tr>
+              <tr><th>ID</th><th>Container</th><th>Recorded</th><th>T</th><th>H</th><th>G</th><th>pH</th><th>Status</th><th style="width:160px">Aksi</th></tr>
             </thead>
             <tbody><tr><td colspan="9" class="muted">Memuat…</td></tr></tbody>
           </table>
@@ -215,7 +159,7 @@
       </div>
     </div>
 
-    <!-- ====== REPORTS ====== -->
+    <!-- REPORTS -->
     <div id="tab-reports" class="mt16 hidden">
       <div class="card">
         <div class="toolbar">
@@ -225,18 +169,14 @@
         </div>
         <div class="mt12" style="overflow:auto">
           <table id="tblReports">
-            <thead>
-              <tr>
-                <th>ID</th><th>Container</th><th>Tanggal</th><th>Catatan</th><th style="width:140px">Aksi</th>
-              </tr>
-            </thead>
+            <thead><tr><th>ID</th><th>Container</th><th>Tanggal</th><th>Catatan</th><th style="width:140px">Aksi</th></tr></thead>
             <tbody><tr><td colspan="5" class="muted">Memuat…</td></tr></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ====== SHEEP REPORTS ====== -->
+    <!-- SHEEP REPORTS -->
     <div id="tab-sheepReports" class="mt16 hidden">
       <div class="card">
         <div class="toolbar">
@@ -246,11 +186,7 @@
         </div>
         <div class="mt12" style="overflow:auto">
           <table id="tblSheepReports">
-            <thead>
-              <tr>
-                <th>ID</th><th>Sheep</th><th>Waktu</th><th>Status</th><th style="width:160px">Aksi</th>
-              </tr>
-            </thead>
+            <thead><tr><th>ID</th><th>Sheep</th><th>Waktu</th><th>Status</th><th style="width:160px">Aksi</th></tr></thead>
             <tbody><tr><td colspan="5" class="muted">Memuat…</td></tr></tbody>
           </table>
         </div>
@@ -259,114 +195,88 @@
   </section>
 </div>
 
-<!-- ========== DIALOG ========== -->
-<div id="modal" class="hidden" style="position:fixed;inset:0;background:rgba(17,24,39,.4);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50">
-  <div class="card" style="width:min(720px,100%); max-height:90vh; overflow:auto">
-    <div class="toolbar">
-      <strong id="modalTitle">Modal</strong>
-      <button id="modalClose" class="right">Tutup</button>
-    </div>
+<!-- MODAL -->
+<div id="modal" class="hidden" style="position:fixed;inset:0;background:rgba(17,24,39,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50">
+  <div class="card" style="width:min(720px,100%);max-height:90vh;overflow:auto">
+    <div class="toolbar"><strong id="modalTitle">Modal</strong><button id="modalClose" class="right">Tutup</button></div>
     <div id="modalBody" class="mt12"></div>
   </div>
 </div>
 
 <script>
-/* ================== CONFIG + HELPERS ================== */
+/* ====== CONFIG + HELPERS ====== */
 const API_BASE = "https://damayanti-api.vercel.app";
 let ADMIN_TOKEN = localStorage.getItem("damayanti_token") || null;
 
-const qs = (s,root=document)=>root.querySelector(s);
-const qsa = (s,root=document)=>[...root.querySelectorAll(s)];
+const qs  = (s, r=document)=>r.querySelector(s);
+const qsa = (s, r=document)=>[...r.querySelectorAll(s)];
 
+function authHeaders(h={}){ return ADMIN_TOKEN ? { ...h, Authorization: "Bearer " + ADMIN_TOKEN } : h; }
 async function api(path, opts={}) {
-  const headers = { "Content-Type":"application/json", ...(opts.headers||{}) };
-  if (ADMIN_TOKEN) headers.Authorization = "Bearer " + ADMIN_TOKEN;
+  const headers = authHeaders({ "Content-Type":"application/json", ...(opts.headers||{}) });
   const res = await fetch(API_BASE + path, { ...opts, headers });
-  if (!res.ok) throw new Error(await res.text().catch(()=>res.statusText));
+  if (!res.ok) {
+    const t = await res.text().catch(()=>res.statusText);
+    throw new Error(`${res.status} ${res.statusText}: ${t}`);
+  }
   return res.status===204 ? null : res.json();
 }
 function unwrapList(p){ if(Array.isArray(p)) return p; if(p && Array.isArray(p.data)) return p.data; return []; }
-function fmtDate(x){ try{ return new Date(x).toLocaleString(); }catch{ return x||"-"; } }
+function fmtDate(x){ try{return new Date(x).toLocaleString()}catch{return x||"-"} }
+function mustAdmin(){
+  if(!ADMIN_TOKEN){ alert("Aksi ini membutuhkan login admin. Silakan login dulu."); return false; }
+  return true;
+}
+function showErr(e){ alert(e?.message || "Terjadi kesalahan"); }
 
-/* ================== AUTH ================== */
-const loginSection = qs("#loginSection");
-const mainSection  = qs("#mainSection");
-const authInfo     = qs("#authInfo");
-const btnLogout    = qs("#btnLogout");
-
-function updateAuthBar(){
-  if(ADMIN_TOKEN){
-    authInfo.textContent = "Logged in";
-    btnLogout.classList.remove("hidden");
-    loginSection.classList.add("hidden");
-    mainSection.classList.remove("hidden");
-  }else{
-    authInfo.textContent = "Belum login";
-    btnLogout.classList.add("hidden");
-    loginSection.classList.remove("hidden");
-    mainSection.classList.add("hidden");
-  }
+/* ====== AUTH ====== */
+const loginSection = qs("#loginSection"), mainSection = qs("#mainSection");
+const authInfo = qs("#authInfo"), btnLogout = qs("#btnLogout");
+function syncAuthUI(){
+  if(ADMIN_TOKEN){ authInfo.textContent="Logged in"; btnLogout.classList.remove("hidden"); loginSection.classList.add("hidden"); mainSection.classList.remove("hidden"); }
+  else{ authInfo.textContent="Belum login"; btnLogout.classList.add("hidden"); loginSection.classList.remove("hidden"); mainSection.classList.add("hidden"); }
 }
 qs("#btnLogin").onclick = async ()=>{
-  const email = qs("#loginEmail").value.trim();
-  const password = qs("#loginPass").value;
-  qs("#loginMsg").textContent = "Memproses…";
+  const email=qs("#loginEmail").value.trim(), password=qs("#loginPass").value;
+  qs("#loginMsg").textContent="Memproses…";
   try{
-    const data = await api("/api/auth/login",{method:"POST", body:JSON.stringify({email,password}), headers:{}}); // no token
-    ADMIN_TOKEN = data?.token || data?.access_token || null;
-    if(!ADMIN_TOKEN) throw new Error("Token tidak ditemukan di respons.");
+    const data = await fetch(API_BASE+"/api/auth/login",{method:"POST",headers:{ "Content-Type":"application/json" },body:JSON.stringify({email,password})}).then(r=>r.json());
+    ADMIN_TOKEN = data?.token || data?.access_token; if(!ADMIN_TOKEN) throw new Error("Token tidak ditemukan di respons.");
     localStorage.setItem("damayanti_token", ADMIN_TOKEN);
-    qs("#loginMsg").textContent = "Berhasil masuk.";
-    updateAuthBar();
-    onAppReady();
-  }catch(err){
-    qs("#loginMsg").textContent = "Gagal login: " + err.message;
-  }
+    qs("#loginMsg").textContent="Berhasil masuk.";
+    syncAuthUI(); boot();
+  }catch(e){ qs("#loginMsg").textContent="Gagal login: "+e.message; }
 };
-btnLogout.onclick = ()=>{
-  ADMIN_TOKEN = null;
-  localStorage.removeItem("damayanti_token");
-  updateAuthBar();
+btnLogout.onclick = ()=>{ ADMIN_TOKEN=null; localStorage.removeItem("damayanti_token"); syncAuthUI(); };
+
+/* ====== TABS ====== */
+const tabs = qs("#tabs"); tabs.onclick = (e)=>{ const t=e.target.closest(".tab"); if(!t) return;
+  qsa(".tab").forEach(x=>x.classList.remove("active")); t.classList.add("active");
+  qsa('[id^="tab-"]').forEach(x=>x.classList.add("hidden")); qs("#tab-"+t.dataset.tab).classList.remove("hidden");
+  if(t.dataset.tab==="summary") loadSummary();
+  if(t.dataset.tab==="containers") loadContainers();
+  if(t.dataset.tab==="students")   loadStudents();
+  if(t.dataset.tab==="sheeps")     loadSheeps();
+  if(t.dataset.tab==="sensor")     loadSensor();
+  if(t.dataset.tab==="reports")    loadReports();
+  if(t.dataset.tab==="sheepReports") loadSheepReports();
 };
 
-/* ================== TABS ================== */
-const tabs = qs("#tabs");
-tabs.addEventListener("click", (e)=>{
-  const t = e.target.closest(".tab"); if(!t) return;
-  qsa(".tab").forEach(x=>x.classList.remove("active"));
-  t.classList.add("active");
-  const tab = t.dataset.tab;
-  qsa('[id^="tab-"]').forEach(x=>x.classList.add("hidden"));
-  qs("#tab-"+tab).classList.remove("hidden");
-
-  // lazy load
-  if(tab==="summary") loadSummary();
-  if(tab==="containers") loadContainers();
-  if(tab==="students") loadStudents();
-  if(tab==="sensor") loadSensor();
-  if(tab==="reports") loadReports();
-  if(tab==="sheepReports") loadSheepReports();
-});
-
-/* ================== MODAL ================== */
+/* ====== MODAL ====== */
 const modal = qs("#modal"), modalBody = qs("#modalBody"), modalTitle = qs("#modalTitle");
 qs("#modalClose").onclick = ()=>modal.classList.add("hidden");
-function openModal(title, html){
-  modalTitle.textContent = title;
-  modalBody.innerHTML = html;
-  modal.classList.remove("hidden");
-}
+function openModal(title, html){ modalTitle.textContent=title; modalBody.innerHTML=html; modal.classList.remove("hidden"); }
 
-/* ================== SUMMARY ================== */
+/* ====== SUMMARY ====== */
 async function loadSummary(){
   try{
     const [containers, students, sheeps, sensor, reports, sReports] = await Promise.all([
-      api("/api/containers?limit=1e6"),
-      api("/api/students?limit=1e6").catch(()=>({data:[]})),
-      api("/api/sheeps?limit=1e6"),
-      api("/api/sensor-data?limit=1e6"),
-      api("/api/reports?limit=1e6"),
-      api("/api/sheep-reports?limit=1e6")
+      api("/api/containers?limit=1000").catch(()=>({data:[]})),
+      api("/api/students?limit=1000").catch(()=>({data:[]})),
+      api("/api/sheeps?limit=1000").catch(()=>({data:[]})),
+      api("/api/sensor-data?limit=1000").catch(()=>({data:[]})),
+      api("/api/reports?limit=1000").catch(()=>({data:[]})),
+      api("/api/sheep-reports?limit=1000").catch(()=>({data:[]})),
     ]);
     qs("#sumContainers").textContent = unwrapList(containers).length;
     qs("#sumStudents").textContent  = unwrapList(students).length;
@@ -377,19 +287,21 @@ async function loadSummary(){
   }catch(e){ console.error(e); }
 }
 
-/* ================== CONTAINERS (CRUD) ================== */
-let cacheContainers = [];
+/* ====== CONTAINERS (CRUD) ====== */
+let cacheContainers=[];
 async function loadContainers(){
-  const data = unwrapList(await api("/api/containers?limit=500"));
-  cacheContainers = data;
-  renderContainerTable(data);
-  // filter live
-  qs("#searchContainers").oninput = (e)=>{
-    const q = e.target.value.toLowerCase();
-    const filtered = cacheContainers.filter(c=>(c.name||c.code||"").toLowerCase().includes(q));
-    renderContainerTable(filtered);
-  };
-  qs("#btnNewContainer").onclick = ()=>showContainerForm();
+  try{
+    cacheContainers = unwrapList(await api("/api/containers?limit=500"));
+    renderContainerTable(cacheContainers);
+    qs("#searchContainers").oninput = (e)=>{
+      const q = e.target.value.toLowerCase();
+      renderContainerTable(cacheContainers.filter(c=>((c.name||c.code||"")+ (c.location||"")).toLowerCase().includes(q)));
+    };
+    qs("#btnNewContainer").onclick = ()=>{
+      if(!mustAdmin()) return;
+      showContainerForm();
+    };
+  }catch(e){ showErr(e); }
 }
 function renderContainerTable(list){
   const tb = qs("#tblContainers tbody");
@@ -400,49 +312,53 @@ function renderContainerTable(list){
       <td>${c.location||"-"}</td>
       <td class="muted">${fmtDate(c.created_at)}</td>
       <td>
-        <button class="btn warn" data-ed="${c.id}">Ubah</button>
-        <button class="btn bad" data-del="${c.id}">Hapus</button>
+        <button class="btn warn" data-ed="${c.id}" ${!ADMIN_TOKEN?'disabled':''}>Ubah</button>
+        <button class="btn bad" data-del="${c.id}" ${!ADMIN_TOKEN?'disabled':''}>Hapus</button>
       </td>
-    </tr>
-  `).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`;
-
+    </tr>`).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`;
   tb.onclick = async (e)=>{
-    const ed = e.target.closest("[data-ed]"); const del = e.target.closest("[data-del]");
-    if(ed){ const item = cacheContainers.find(x=>x.id===ed.dataset.ed); showContainerForm(item); }
-    if(del){ if(!confirm("Hapus container ini?")) return;
-      await api("/api/containers/"+del.dataset.del,{method:"DELETE"});
-      loadContainers();
+    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
+    if(ed){ if(!mustAdmin()) return; const item=cacheContainers.find(x=>x.id===ed.dataset.ed); showContainerForm(item); }
+    if(del){ if(!mustAdmin()) return; if(!confirm("Hapus container ini?")) return;
+      try{ await api("/api/containers/"+del.dataset.del,{method:"DELETE"}); loadContainers(); }catch(err){ showErr(err); }
     }
   };
 }
 function showContainerForm(item){
   openModal(item?"Ubah Container":"Tambah Container", `
     <div class="grid g2">
-      <div><label class="muted">Nama/Kode</label><input id="fName" value="${item?.name||item?.code||""}"></div>
-      <div><label class="muted">Lokasi</label><input id="fLoc"  value="${item?.location||""}"></div>
+      <div><label class="muted">Kode (wajib)</label><input id="fCode" value="${item?.code||item?.name||""}"></div>
+      <div><label class="muted">Nama (opsional)</label><input id="fName" value="${item?.name||""}"></div>
+      <div><label class="muted">Lokasi</label><input id="fLoc" value="${item?.location||""}"></div>
     </div>
     <div class="toolbar mt16"><button id="save" class="btn">${item?"Simpan":"Buat"}</button></div>
-    <div class="note">Endpoint: ${item? "PUT /api/containers/{id}" : "POST /api/containers"}</div>
+    <div class="note">Endpoint: ${item? "PUT /api/containers/{id}" : "POST /api/containers"} — field utama: <b>code</b>, <i>location</i>, (opsional <i>name</i>)</div>
   `);
   qs("#save").onclick = async ()=>{
-    const payload = { name: qs("#fName").value.trim(), location: qs("#fLoc").value.trim() };
-    const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
-    if(item) await api("/api/containers/"+item.id, opts); else await api("/api/containers", opts);
-    modal.classList.add("hidden"); loadContainers();
+    if(!mustAdmin()) return;
+    const payload = { code: qs("#fCode").value.trim(), location: qs("#fLoc").value.trim() };
+    const nm = qs("#fName").value.trim(); if(nm) payload.name = nm;
+    if(!payload.code){ alert("Kode wajib diisi."); return; }
+    try{
+      const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
+      if(item) await api("/api/containers/"+item.id, opts); else await api("/api/containers", opts);
+      modal.classList.add("hidden"); loadContainers();
+    }catch(e){ showErr(e); }
   };
 }
 
-/* ================== STUDENTS (CRUD) ================== */
-let cacheStudents = [];
+/* ====== STUDENTS (CRUD) ====== */
+let cacheStudents=[];
 async function loadStudents(){
-  const data = unwrapList(await api("/api/students?limit=500").catch(()=>({data:[]})));
-  cacheStudents = data;
-  renderStudentTable(data);
-  qs("#searchStudents").oninput = (e)=>{
-    const q = e.target.value.toLowerCase();
-    renderStudentTable(cacheStudents.filter(s=>(s.full_name||s.name||"").toLowerCase().includes(q)));
-  };
-  qs("#btnNewStudent").onclick = ()=>showStudentForm();
+  try{
+    cacheStudents = unwrapList(await api("/api/students?limit=500").catch(()=>({data:[]})));
+    renderStudentTable(cacheStudents);
+    qs("#searchStudents").oninput = (e)=>{
+      const q=e.target.value.toLowerCase();
+      renderStudentTable(cacheStudents.filter(s=>(s.full_name||s.name||"").toLowerCase().includes(q)));
+    };
+    qs("#btnNewStudent").onclick = ()=>{ if(!mustAdmin()) return; showStudentForm(); };
+  }catch(e){ showErr(e); }
 }
 function renderStudentTable(list){
   const tb = qs("#tblStudents tbody");
@@ -452,18 +368,15 @@ function renderStudentTable(list){
       <td>${s.full_name||s.name||"-"}</td>
       <td class="muted">${fmtDate(s.created_at)}</td>
       <td>
-        <button class="btn warn" data-ed="${s.id}">Ubah</button>
-        <button class="btn bad" data-del="${s.id}">Hapus</button>
+        <button class="btn warn" data-ed="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Ubah</button>
+        <button class="btn bad" data-del="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Hapus</button>
       </td>
-    </tr>
-  `).join("") : `<tr><td colspan="4" class="muted">Tidak ada data.</td></tr>`;
-
+    </tr>`).join("") : `<tr><td colspan="4" class="muted">Tidak ada data.</td></tr>`;
   tb.onclick = async (e)=>{
-    const ed = e.target.closest("[data-ed]"); const del = e.target.closest("[data-del]");
-    if(ed){ const item = cacheStudents.find(x=>x.id===ed.dataset.ed); showStudentForm(item); }
-    if(del){ if(!confirm("Hapus student ini?")) return;
-      await api("/api/students/"+del.dataset.del,{method:"DELETE"});
-      loadStudents();
+    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
+    if(ed){ if(!mustAdmin()) return; const it=cacheStudents.find(x=>x.id===ed.dataset.ed); showStudentForm(it); }
+    if(del){ if(!mustAdmin()) return; if(!confirm("Hapus student ini?")) return;
+      try{ await api("/api/students/"+del.dataset.del,{method:"DELETE"}); loadStudents(); }catch(err){ showErr(err); }
     }
   };
 }
@@ -471,141 +384,167 @@ function showStudentForm(item){
   openModal(item?"Ubah Student":"Tambah Student", `
     <div><label class="muted">Nama Lengkap</label><input id="sName" value="${item?.full_name||item?.name||""}"></div>
     <div class="toolbar mt16"><button id="saveS" class="btn">${item?"Simpan":"Buat"}</button></div>
-    <div class="note">Endpoint: ${item? "PUT /api/students/{id}" : "POST /api/students"}</div>
+    <div class="note">Endpoint: ${item? "PUT /api/students/{id}" : "POST /api/students"} — field: <b>full_name</b></div>
   `);
   qs("#saveS").onclick = async ()=>{
+    if(!mustAdmin()) return;
     const payload = { full_name: qs("#sName").value.trim() };
-    const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
-    if(item) await api("/api/students/"+item.id, opts); else await api("/api/students", opts);
-    modal.classList.add("hidden"); loadStudents();
+    if(!payload.full_name){ alert("Nama wajib diisi."); return; }
+    try{
+      const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
+      if(item) await api("/api/students/"+item.id, opts); else await api("/api/students", opts);
+      modal.classList.add("hidden"); loadStudents();
+    }catch(e){ showErr(e); }
   };
 }
 
-/* ================== SENSOR DATA (CRUD ringan) ================== */
-let cacheSensor=[], cacheContainersMini=[];
-async function loadSensor(){
-  // containers for filter & form
-  cacheContainersMini = unwrapList(await api("/api/containers?limit=500"));
-  const sel = qs("#filterSensorContainer");
-  sel.innerHTML = `<option value="">Semua container</option>` +
-    cacheContainersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("");
+/* ====== SHEEPS (CRUD) ====== */
+let cacheSheeps=[];
+async function loadSheeps(){
+  try{
+    cacheSheeps = unwrapList(await api("/api/sheeps?limit=500"));
+    renderSheeps(cacheSheeps);
+    qs("#searchSheeps").oninput = (e)=>{
+      const q=e.target.value.toLowerCase();
+      renderSheeps(cacheSheeps.filter(s=>(s.name||"").toLowerCase().includes(q)));
+    };
+    qs("#btnNewSheep").onclick = ()=>{ if(!mustAdmin()) return; showSheepForm(); };
+  }catch(e){ showErr(e); }
+}
+function renderSheeps(list){
+  const tb = qs("#tblSheeps tbody");
+  tb.innerHTML = list.length ? list.map(s=>`
+    <tr>
+      <td class="muted">${s.id}</td>
+      <td>${s.name||"-"}</td>
+      <td>${s.age ?? "-"}</td>
+      <td class="muted">${fmtDate(s.created_at)}</td>
+      <td>
+        <button class="btn warn" data-ed="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Ubah</button>
+        <button class="btn bad" data-del="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Hapus</button>
+      </td>
+    </tr>`).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`;
+  tb.onclick = async (e)=>{
+    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
+    if(ed){ if(!mustAdmin()) return; const it=cacheSheeps.find(x=>x.id===ed.dataset.ed); showSheepForm(it); }
+    if(del){ if(!mustAdmin()) return; if(!confirm("Hapus sheep ini?")) return;
+      try{ await api("/api/sheeps/"+del.dataset.del,{method:"DELETE"}); loadSheeps(); }catch(err){ showErr(err); }
+    }
+  };
+}
+function showSheepForm(item){
+  openModal(item?"Ubah Sheep":"Tambah Sheep", `
+    <div class="grid g2">
+      <div><label class="muted">Nama</label><input id="shName" value="${item?.name||""}"></div>
+      <div><label class="muted">Umur (tahun)</label><input id="shAge" type="number" step="1" value="${item?.age ?? ""}"></div>
+    </div>
+    <div class="toolbar mt16"><button id="saveSh" class="btn">${item?"Simpan":"Buat"}</button></div>
+    <div class="note">Endpoint: ${item? "PUT /api/sheeps/{id}" : "POST /api/sheeps"}</div>
+  `);
+  qs("#saveSh").onclick = async ()=>{
+    if(!mustAdmin()) return;
+    const payload = { name: qs("#shName").value.trim(), age: Number(qs("#shAge").value||0) };
+    if(!payload.name){ alert("Nama wajib diisi."); return; }
+    try{
+      const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
+      if(item) await api("/api/sheeps/"+item.id, opts); else await api("/api/sheeps", opts);
+      modal.classList.add("hidden"); loadSheeps();
+    }catch(e){ showErr(e); }
+  };
+}
 
-  const data = unwrapList(await api("/api/sensor-data?limit=500"));
-  cacheSensor = data;
-  renderSensorTable();
-  sel.onchange = renderSensorTable;
-  qs("#btnNewSensor").onclick = ()=>showSensorForm();
+/* ====== SENSOR DATA ====== */
+let cacheSensor=[], containersMini=[];
+async function loadSensor(){
+  try{
+    containersMini = unwrapList(await api("/api/containers?limit=500"));
+    const sel=qs("#filterSensorContainer");
+    sel.innerHTML = `<option value="">Semua container</option>`+containersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("");
+    cacheSensor = unwrapList(await api("/api/sensor-data?limit=500"));
+    renderSensorTable(); sel.onchange=renderSensorTable;
+    qs("#btnNewSensor").onclick = ()=>showSensorForm();
+  }catch(e){ showErr(e); }
 }
 function renderSensorTable(){
-  const cid = qs("#filterSensorContainer").value;
-  const list = cacheSensor.filter(x=>!cid || x.container_id===cid);
-  const tb = qs("#tblSensor tbody");
+  const cid=qs("#filterSensorContainer").value;
+  const list=cacheSensor.filter(x=>!cid || x.container_id===cid);
+  const tb=qs("#tblSensor tbody");
   tb.innerHTML = list.length ? list.map(r=>{
-    const cName = (cacheContainersMini.find(c=>c.id===r.container_id)?.name) || r.container_id || "-";
-    return `
-      <tr>
-        <td class="muted">${r.id}</td>
-        <td>${cName}</td>
-        <td class="muted">${fmtDate(r.recorded_at||r.created_at)}</td>
-        <td>${r.temperature ?? "-"}</td><td>${r.humidity ?? "-"}</td><td>${r.gas ?? "-"}</td><td>${r.ph ?? "-"}</td>
-        <td>${r.status ?? "-"}</td>
-        <td>
-          <button class="btn warn" data-ed="${r.id}">Ubah</button>
-          <button class="btn bad" data-del="${r.id}">Hapus</button>
-        </td>
-      </tr>`;
+    const cName=(containersMini.find(c=>c.id===r.container_id)?.name)||r.container_id||"-";
+    return `<tr>
+      <td class="muted">${r.id}</td><td>${cName}</td><td class="muted">${fmtDate(r.recorded_at||r.created_at)}</td>
+      <td>${r.temperature ?? "-"}</td><td>${r.humidity ?? "-"}</td><td>${r.gas ?? "-"}</td><td>${r.ph ?? "-"}</td>
+      <td>${r.status ?? "-"}</td>
+      <td><button class="btn warn" data-ed="${r.id}">Ubah</button> <button class="btn bad" data-del="${r.id}">Hapus</button></td>
+    </tr>`;
   }).join("") : `<tr><td colspan="9" class="muted">Tidak ada data.</td></tr>`;
-
   tb.onclick = async (e)=>{
-    const ed = e.target.closest("[data-ed]"); const del = e.target.closest("[data-del]");
-    if(ed){ const item = cacheSensor.find(x=>x.id===ed.dataset.ed); showSensorForm(item); }
-    if(del){ if(!confirm("Hapus record ini?")) return;
-      await api("/api/sensor-data/"+del.dataset.del,{method:"DELETE"}); loadSensor();
-    }
+    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
+    if(ed){ const it=cacheSensor.find(x=>x.id===ed.dataset.ed); showSensorForm(it); }
+    if(del){ if(!confirm("Hapus record ini?")) return; try{ await api("/api/sensor-data/"+del.dataset.del,{method:"DELETE"}); loadSensor(); }catch(err){ showErr(err); } }
   };
 }
 function showSensorForm(item){
   openModal(item?"Ubah Sensor Data":"Tambah Sensor Data", `
     <div class="grid g2">
-      <div>
-        <label class="muted">Container</label>
-        <select id="sdContainer">
-          ${cacheContainersMini.map(c=>`<option value="${c.id}" ${item?.container_id===c.id?"selected":""}>${c.name||c.code||c.id}</option>`).join("")}
-        </select>
-      </div>
+      <div><label class="muted">Container</label><select id="sdC">${containersMini.map(c=>`<option value="${c.id}" ${item?.container_id===c.id?"selected":""}>${c.name||c.code||c.id}</option>`).join("")}</select></div>
       <div><label class="muted">Waktu (ISO)</label><input id="sdTime" value="${item?.recorded_at || new Date().toISOString()}"></div>
       <div><label class="muted">Suhu (°C)</label><input id="sdT" type="number" step="0.1" value="${item?.temperature ?? ""}"></div>
       <div><label class="muted">Kelembapan (%)</label><input id="sdH" type="number" step="0.1" value="${item?.humidity ?? ""}"></div>
       <div><label class="muted">Gas (ppm)</label><input id="sdG" type="number" step="0.1" value="${item?.gas ?? ""}"></div>
       <div><label class="muted">pH</label><input id="sdP" type="number" step="0.1" value="${item?.ph ?? ""}"></div>
-      <div><label class="muted">Status</label>
-        <select id="sdS">
-          ${["Merah","Kuning","Hijau"].map(s=>`<option ${item?.status===s?"selected":""}>${s}</option>`).join("")}
-        </select>
-      </div>
+      <div><label class="muted">Status</label><select id="sdS">${["Merah","Kuning","Hijau"].map(s=>`<option ${item?.status===s?"selected":""}>${s}</option>`).join("")}</select></div>
     </div>
-    <div class="toolbar mt16"><button id="saveSD" class="btn">${item?"Simpan":"Buat"}</button></div>
+    <div class="toolbar mt16"><button id="sdSave" class="btn">${item?"Simpan":"Buat"}</button></div>
   `);
-  qs("#saveSD").onclick = async ()=>{
+  qs("#sdSave").onclick = async ()=>{
     const payload = {
-      container_id: qs("#sdContainer").value,
-      recorded_at: qs("#sdTime").value,
-      temperature: +qs("#sdT").value,
-      humidity: +qs("#sdH").value,
-      gas: +qs("#sdG").value,
-      ph: +qs("#sdP").value,
+      container_id: qs("#sdC").value, recorded_at: qs("#sdTime").value,
+      temperature:+qs("#sdT").value, humidity:+qs("#sdH").value, gas:+qs("#sdG").value, ph:+qs("#sdP").value,
       status: qs("#sdS").value
     };
-    const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
-    if(item) await api("/api/sensor-data/"+item.id, opts); else await api("/api/sensor-data", opts);
-    modal.classList.add("hidden"); loadSensor();
+    try{
+      const opts={method:item?"PUT":"POST", body:JSON.stringify(payload)};
+      if(item) await api("/api/sensor-data/"+item.id, opts); else await api("/api/sensor-data", opts);
+      modal.classList.add("hidden"); loadSensor();
+    }catch(e){ showErr(e); }
   };
 }
 
-/* ================== REPORTS (CRUD ringan) ================== */
+/* ====== REPORTS ====== */
 let cacheReports=[];
 async function loadReports(){
-  cacheContainersMini = unwrapList(await api("/api/containers?limit=500"));
-  const sel = qs("#filterReportContainer");
-  sel.innerHTML = `<option value="">Semua container</option>` +
-    cacheContainersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("");
-
-  cacheReports = unwrapList(await api("/api/reports?limit=500"));
-  renderReportsTable();
-  sel.onchange = renderReportsTable;
-  qs("#btnNewReport").onclick = ()=>showReportForm();
+  try{
+    containersMini = unwrapList(await api("/api/containers?limit=500"));
+    qs("#filterReportContainer").innerHTML = `<option value="">Semua container</option>`+containersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("");
+    cacheReports = unwrapList(await api("/api/reports?limit=500"));
+    renderReportsTable();
+    qs("#filterReportContainer").onchange = renderReportsTable;
+    qs("#btnNewReport").onclick = ()=>showReportForm();
+  }catch(e){ showErr(e); }
 }
 function renderReportsTable(){
   const cid = qs("#filterReportContainer").value;
-  const tb = qs("#tblReports tbody");
   const list = cacheReports.filter(r=>!cid || r.container_id===cid);
+  const tb = qs("#tblReports tbody");
   tb.innerHTML = list.length ? list.map(r=>{
-    const name = (cacheContainersMini.find(c=>c.id===r.container_id)?.name) || r.container_id || "-";
-    return `
-      <tr>
-        <td class="muted">${r.id}</td>
-        <td>${name}</td>
-        <td class="muted">${fmtDate(r.report_date||r.created_at)}</td>
-        <td>${r.notes ? String(r.notes).replace(/</g,"&lt;") : "-"}</td>
-        <td>
-          <button class="btn bad" data-del="${r.id}">Hapus</button>
-        </td>
-      </tr>`;
+    const nm = (containersMini.find(c=>c.id===r.container_id)?.name) || r.container_id || "-";
+    return `<tr>
+      <td class="muted">${r.id}</td><td>${nm}</td><td class="muted">${fmtDate(r.report_date||r.created_at)}</td>
+      <td>${r.notes?String(r.notes).replace(/</g,"&lt;"):"-"}</td>
+      <td><button class="btn bad" data-del="${r.id}">Hapus</button></td>
+    </tr>`;
   }).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`;
-
   tb.onclick = async (e)=>{
-    const del = e.target.closest("[data-del]"); if(!del) return;
+    const del=e.target.closest("[data-del]"); if(!del) return;
     if(!confirm("Hapus report ini?")) return;
-    await api("/api/reports/"+del.dataset.del,{method:"DELETE"}); loadReports();
+    try{ await api("/api/reports/"+del.dataset.del,{method:"DELETE"}); loadReports(); }catch(err){ showErr(err); }
   };
 }
 function showReportForm(){
   openModal("Tambah Report", `
     <div class="grid g2">
-      <div>
-        <label class="muted">Container</label>
-        <select id="rpC">${cacheContainersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("")}</select>
-      </div>
+      <div><label class="muted">Container</label><select id="rpC">${containersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("")}</select></div>
       <div><label class="muted">Tanggal (ISO)</label><input id="rpD" value="${new Date().toISOString()}"></div>
     </div>
     <div class="mt12"><label class="muted">Catatan</label><textarea id="rpN" rows="4" placeholder="Ringkasan…"></textarea></div>
@@ -613,83 +552,64 @@ function showReportForm(){
   `);
   qs("#rpSave").onclick = async ()=>{
     const payload = { container_id: qs("#rpC").value, report_date: qs("#rpD").value, notes: qs("#rpN").value };
-    await api("/api/reports",{method:"POST", body: JSON.stringify(payload)});
-    modal.classList.add("hidden"); loadReports();
+    try{ await api("/api/reports",{method:"POST", body:JSON.stringify(payload)}); modal.classList.add("hidden"); loadReports(); }catch(e){ showErr(e); }
   };
 }
 
-/* ================== SHEEP REPORTS (CRUD) ================== */
-let cacheSheepReports=[], cacheSheeps=[];
+/* ====== SHEEP REPORTS ====== */
+let cacheSheepReports=[];
 async function loadSheepReports(){
-  cacheSheeps = unwrapList(await api("/api/sheeps?limit=1000"));
-  const sel = qs("#filterSheep");
-  sel.innerHTML = `<option value="">Semua kambing</option>`+cacheSheeps.map(s=>`<option value="${s.id}">${s.name||s.id}</option>`).join("");
-
-  cacheSheepReports = unwrapList(await api("/api/sheep-reports?limit=1000"));
-  renderSheepReportsTable();
-  sel.onchange = renderSheepReportsTable;
-  qs("#btnNewSheepReport").onclick = ()=>showSheepReportForm();
+  try{
+    cacheSheeps = unwrapList(await api("/api/sheeps?limit=1000"));
+    qs("#filterSheep").innerHTML = `<option value="">Semua kambing</option>`+cacheSheeps.map(s=>`<option value="${s.id}">${s.name||s.id}</option>`).join("");
+    cacheSheepReports = unwrapList(await api("/api/sheep-reports?limit=1000"));
+    renderSheepReportsTable();
+    qs("#filterSheep").onchange = renderSheepReportsTable;
+    qs("#btnNewSheepReport").onclick = ()=>showSheepReportForm();
+  }catch(e){ showErr(e); }
 }
 function renderSheepReportsTable(){
   const sid = qs("#filterSheep").value;
-  const tb = qs("#tblSheepReports tbody");
   const list = cacheSheepReports.filter(r=>!sid || r.sheep_id===sid);
+  const tb = qs("#tblSheepReports tbody");
   tb.innerHTML = list.length ? list.map(r=>{
     const nm = (cacheSheeps.find(s=>s.id===r.sheep_id)?.name) || r.sheep_id || "-";
-    return `
-      <tr>
-        <td class="muted">${r.id}</td>
-        <td>${nm}</td>
-        <td class="muted">${fmtDate(r.feeding_time||r.created_at)}</td>
-        <td>${r.status||"-"}</td>
-        <td>
-          <button class="btn warn" data-ed="${r.id}">Ubah</button>
-          <button class="btn bad" data-del="${r.id}">Hapus</button>
-        </td>
-      </tr>`;
+    return `<tr>
+      <td class="muted">${r.id}</td><td>${nm}</td><td class="muted">${fmtDate(r.feeding_time||r.created_at)}</td>
+      <td>${r.status||"-"}</td>
+      <td><button class="btn warn" data-ed="${r.id}">Ubah</button> <button class="btn bad" data-del="${r.id}">Hapus</button></td>
+    </tr>`;
   }).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`;
-
   tb.onclick = (e)=>{
-    const ed = e.target.closest("[data-ed]"); const del = e.target.closest("[data-del]");
-    if(ed){ const item = cacheSheepReports.find(x=>x.id===ed.dataset.ed); showSheepReportForm(item); }
+    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
+    if(ed){ const it=cacheSheepReports.find(x=>x.id===ed.dataset.ed); showSheepReportForm(it); }
     if(del){ if(!confirm("Hapus record ini?")) return;
-      api("/api/sheep-reports/"+del.dataset.del,{method:"DELETE"}).then(loadSheepReports);
+      api("/api/sheep-reports/"+del.dataset.del,{method:"DELETE"}).then(loadSheepReports).catch(showErr);
     }
   };
 }
 function showSheepReportForm(item){
   openModal(item?"Ubah Sheep Report":"Tambah Sheep Report", `
     <div class="grid g2">
-      <div>
-        <label class="muted">Sheep</label>
-        <select id="srS">${cacheSheeps.map(s=>`<option value="${s.id}" ${item?.sheep_id===s.id?"selected":""}>${s.name||s.id}</option>`).join("")}</select>
-      </div>
-      <div><label class="muted">Waktu (ISO)</label><input id="srT" value="${item?.feeding_time || new Date().toISOString()}"></div>
-      <div>
-        <label class="muted">Status</label>
-        <select id="srStatus">
-          ${["Sudah Diberi Makan","Belum Diberi Makan"].map(x=>`<option ${item?.status===x?"selected":""}>${x}</option>`).join("")}
-        </select>
-      </div>
+      <div><label class="muted">Sheep</label><select id="srS">${cacheSheeps.map(s=>`<option value="${s.id}" ${item?.sheep_id===s.id?"selected":""}>${s.name||s.id}</option>`).join("")}</select></div>
+      <div><label class="muted">Waktu (ISO)</label><input id="srT" value="${item?.feeding_time||new Date().toISOString()}"></div>
+      <div><label class="muted">Status</label><select id="srStatus">${["Sudah Diberi Makan","Belum Diberi Makan"].map(x=>`<option ${item?.status===x?"selected":""}>${x}</option>`).join("")}</select></div>
     </div>
     <div class="toolbar mt16"><button id="srSave" class="btn">${item?"Simpan":"Buat"}</button></div>
   `);
   qs("#srSave").onclick = async ()=>{
     const payload = { sheep_id: qs("#srS").value, feeding_time: qs("#srT").value, status: qs("#srStatus").value };
-    const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
-    if(item) await api("/api/sheep-reports/"+item.id, opts); else await api("/api/sheep-reports", opts);
-    modal.classList.add("hidden"); loadSheepReports();
+    try{
+      const opts={method:item?"PUT":"POST", body:JSON.stringify(payload)};
+      if(item) await api("/api/sheep-reports/"+item.id, opts); else await api("/api/sheep-reports", opts);
+      modal.classList.add("hidden"); loadSheepReports();
+    }catch(e){ showErr(e); }
   };
 }
 
-/* ================== BOOT ================== */
-function onAppReady(){
-  updateAuthBar();
-  // default tab
-  loadSummary();
-}
-updateAuthBar();
-if(ADMIN_TOKEN){ onAppReady(); }
+/* ====== BOOT ====== */
+function boot(){ syncAuthUI(); loadSummary(); }
+syncAuthUI(); if(ADMIN_TOKEN) boot();
 </script>
 </body>
 </html>
