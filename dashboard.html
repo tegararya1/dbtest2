@@ -1,405 +1,306 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Admin Dashboard — Damayanti</title>
-<style>
-:root{
-  --bg:#eef3ff; --card:#fff; --ink:#111827; --muted:#6b7280;
-  --brand:#2563eb; --ok:#10b981; --warn:#f59e0b; --bad:#ef4444;
-  --ring:rgba(37,99,235,.25); --radius:16px
-}
-*{box-sizing:border-box}
-body{margin:0;background:linear-gradient(#f7fbff,#e9f0ff);font:14px/1.5 system-ui}
-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:rgba(255,255,255,.7);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}
-h1{margin:0;font-size:18px}
-.wrap{max-width:1180px;margin:18px auto;padding:0 16px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap}
-.tab{padding:8px 12px;border-radius:999px;background:#eef2ff;color:#1e3a8a;border:1px solid #c7d2fe;cursor:pointer}
-.tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
-.card{background:var(--card);border-radius:var(--radius);box-shadow:0 10px 30px rgba(0,0,0,.05);border:1px solid #e5e7eb;padding:16px}
-.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
-@media(max-width:960px){.g2,.g3{grid-template-columns:1fr}}
-table{width:100%;border-collapse:separate;border-spacing:0}
-th,td{padding:10px 12px;border-bottom:1px solid #eef2f7;vertical-align:top}
-th{background:#f9fafb;font-weight:600;text-align:left}
-tr:hover td{background:#fafcff}
-.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-input,select,textarea{width:100%;min-height:38px;padding:10px 12px;border:1px solid #d1d5db;border-radius:10px;background:#fff;outline:none}
-input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring);border-color:var(--brand)}
-button{height:38px;padding:0 12px;border:1px solid #d1d5db;background:#fff;border-radius:10px;cursor:pointer}
-.btn{background:var(--brand);border-color:var(--brand);color:#fff}
-.btn.ok{background:var(--ok);border-color:var(--ok)}
-.btn.warn{background:var(--warn);border-color:var(--warn)}
-.btn.bad{background:var(--bad);border-color:var(--bad)}
-.muted{color:var(--muted)} .right{margin-left:auto}
-.badge{display:inline-block;padding:.15rem .5rem;border-radius:999px;font-size:12px;border:1px solid #e5e7eb;background:#f9fafb}
-.hidden{display:none!important}
-.note{font-size:12px;color:#6b7280} .mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
-.hr{height:1px;background:#eef2f7;margin:10px 0}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard — Damayanti</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f6f9ff; --card:#fff; --ink:#0f172a; --muted:#667085; --line:#e5e7eb;
+      --primary:#1e66ff; --primary-ink:#fff; --danger:#ef4444;
+      --pill:#ecf2ff; --pill-ink:#1e66ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--ink)}
+    .wrap{max-width:1100px;margin:32px auto;padding:0 16px}
+    .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .h1{font-weight:700;font-size:20px}
+    .tag{font-size:12px;color:#0a0;opacity:.75}
+    .tabs{display:flex;gap:10px;margin:12px 0 20px}
+    .pill{padding:10px 14px;border-radius:999px;background:#fff;border:1px solid #cfe0ff;color:#235;cursor:pointer}
+    .pill.active{background:var(--pill);color:var(--pill-ink);border-color:transparent}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(15,23,42,.04)}
+    .row{display:flex;align-items:center;gap:12px}
+    .space{flex:1}
+    input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+    table{width:100%;border-collapse:collapse}
+    th,td{border-top:1px solid var(--line);padding:10px 12px;text-align:left;font-size:14px}
+    th{background:#fafbff;color:#334}
+    .muted{font-size:12px;color:var(--muted)}
+    .btn{background:var(--primary);color:var(--primary-ink);border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
+    .btn.ghost{background:#eef3ff;color:#234}
+    .btn.danger{background:var(--danger)}
+    .toolbar{display:flex;gap:8px;align-items:center}
+    .mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
+    .right{float:right}
+    /* modal */
+    .modal{position:fixed;inset:0;background:rgba(2,6,23,.5);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal.open{display:flex}
+    .modal .box{background:#fff;border-radius:16px;min-width:320px;max-width:640px;width:100%;padding:16px}
+    .title{font-weight:600;margin-bottom:8px}
+    .note{font-size:12px;color:var(--muted);margin-top:8px}
+    /* mini badge */
+    .badge{font-size:12px;padding:3px 8px;border-radius:999px;background:#eef2ff;color:#334}
+  </style>
 </head>
 <body>
-<header>
-  <h1>Admin Dashboard — Damayanti</h1>
-  <div class="toolbar">
-    <span id="authInfo" class="muted">Belum login</span>
-    <button id="btnLogout" class="hidden">Keluar</button>
+  <div class="wrap">
+    <div class="top">
+      <div class="h1">Admin Dashboard — Damayanti</div>
+      <div>
+        <span class="muted" id="loginState">Logged out</span>
+        <button class="btn ghost" id="btnLogin">Login</button>
+        <button class="btn danger" id="btnLogout" style="display:none">Keluar</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="pill"   data-tab="summary">Ringkasan</button>
+      <button class="pill"   data-tab="containers">Containers</button>
+      <button class="pill"   data-tab="students">Students</button>
+      <button class="pill"   data-tab="sensor">Sensor Data</button>
+      <button class="pill"   data-tab="reports">Reports</button>
+      <button class="pill"   data-tab="sheeps">Sheeps</button>
+    </div>
+
+    <div id="view"></div>
   </div>
-</header>
 
-<div class="wrap">
-  <!-- LOGIN -->
-  <section id="loginSection" class="card" style="max-width:420px;margin:40px auto">
-    <h3 style="margin:0 0 8px 0;">Masuk Admin</h3>
-    <div class="note">Endpoint: <code>POST /api/auth/login</code></div>
-    <div class="grid g2 mt12">
-      <div><label class="muted">Email</label><input id="loginEmail" type="email" placeholder="admin@email.com"></div>
-      <div><label class="muted">Password</label><input id="loginPass" type="password" placeholder="••••••••"></div>
-    </div>
-    <div class="toolbar mt12">
-      <button id="btnLogin" class="btn">Masuk</button>
-      <span id="loginMsg" class="muted"></span>
-    </div>
-    <div class="hr"></div>
-    <div class="note">Tanpa login Anda tetap bisa <b>GET</b> data. Aksi <b>Tambah/Ubah/Hapus</b> membutuhkan token admin.</div>
-  </section>
-
-  <!-- MAIN -->
-  <section id="mainSection" class="hidden">
-    <div class="tabs" id="tabs">
-      <div class="tab active" data-tab="summary">Ringkasan</div>
-      <div class="tab" data-tab="containers">Containers</div>
-      <div class="tab" data-tab="students">Students</div>
-      <div class="tab" data-tab="sheeps">Sheeps</div>
-      <div class="tab" data-tab="sensor">Sensor Data</div>
-      <div class="tab" data-tab="reports">Reports</div>
-      <div class="tab" data-tab="sheepReports">Sheep Reports</div>
-    </div>
-
-    <!-- SUMMARY -->
-    <div id="tab-summary" class="mt16">
-      <div class="grid g3">
-        <div class="card"><div class="muted">Total Containers</div><div id="sumContainers" style="font-weight:700;font-size:28px">—</div></div>
-        <div class="card"><div class="muted">Total Students</div><div id="sumStudents" style="font-weight:700;font-size:28px">—</div></div>
-        <div class="card"><div class="muted">Total Sheeps</div><div id="sumSheeps" style="font-weight:700;font-size:28px">—</div></div>
-        <div class="card"><div class="muted">Total Sensor Records</div><div id="sumSensor" style="font-weight:700;font-size:28px">—</div></div>
-        <div class="card"><div class="muted">Total Reports</div><div id="sumReports" style="font-weight:700;font-size:28px">—</div></div>
-        <div class="card"><div class="muted">Total Sheep Reports</div><div id="sumSheepReports" style="font-weight:700;font-size:28px">—</div></div>
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="box">
+      <div class="row">
+        <div class="title" id="modalTitle">Modal</div>
+        <div class="space"></div>
+        <button class="btn ghost" id="modalClose">Tutup</button>
       </div>
+      <div id="modalBody" class="mt12"></div>
     </div>
-
-    <!-- CONTAINERS -->
-    <div id="tab-containers" class="mt16 hidden">
-      <div class="card">
-        <div class="toolbar">
-          <strong>Containers</strong>
-          <span class="badge">Admin only tambah/ubah/hapus</span>
-          <input id="searchContainers" placeholder="Cari nama/kode..." style="max-width:260px" class="right">
-          <button id="btnNewContainer" class="btn">Tambah</button>
-        </div>
-        <div class="mt12" style="overflow:auto">
-          <table id="tblContainers">
-            <thead><tr><th>ID</th><th>Nama/Kode</th><th>Lokasi</th><th>Dibuat</th><th style="width:160px">Aksi</th></tr></thead>
-            <tbody><tr><td colspan="5" class="muted">Memuat…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- STUDENTS -->
-    <div id="tab-students" class="mt16 hidden">
-      <div class="card">
-        <div class="toolbar">
-          <strong>Students</strong>
-          <span class="badge">Admin only tambah/ubah/hapus</span>
-          <input id="searchStudents" placeholder="Cari nama…" style="max-width:260px" class="right">
-          <button id="btnNewStudent" class="btn">Tambah</button>
-        </div>
-        <div class="mt12" style="overflow:auto">
-          <table id="tblStudents">
-            <thead><tr><th>ID</th><th>Nama</th><th>Dibuat</th><th style="width:160px">Aksi</th></tr></thead>
-            <tbody><tr><td colspan="4" class="muted">Memuat…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- SHEEPS (tanpa umur) -->
-    <div id="tab-sheeps" class="mt16 hidden">
-      <div class="card">
-        <div class="toolbar">
-          <strong>Sheeps</strong>
-          <span class="badge">Admin only tambah/ubah/hapus</span>
-          <input id="searchSheeps" placeholder="Cari nama kambing…" style="max-width:260px" class="right">
-          <button id="btnNewSheep" class="btn">Tambah</button>
-        </div>
-        <div class="mt12" style="overflow:auto">
-          <table id="tblSheeps">
-            <thead><tr><th>ID</th><th>Nama</th><th>Dibuat</th><th style="width:160px">Aksi</th></tr></thead>
-            <tbody><tr><td colspan="4" class="muted">Memuat…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- SENSOR DATA -->
-    <div id="tab-sensor" class="mt16 hidden">
-      <div class="card">
-        <div class="toolbar">
-          <strong>Sensor Data</strong>
-          <select id="filterSensorContainer" style="max-width:260px" class="right"></select>
-          <button id="btnNewSensor" class="btn">Tambah</button>
-        </div>
-        <div class="mt12" style="overflow:auto">
-          <table id="tblSensor">
-            <thead>
-              <tr><th>ID</th><th>Container</th><th>Recorded</th><th>T</th><th>H</th><th>G</th><th>pH</th><th>Status</th><th style="width:160px">Aksi</th></tr>
-            </thead>
-            <tbody><tr><td colspan="9" class="muted">Memuat…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- REPORTS -->
-    <div id="tab-reports" class="mt16 hidden">
-      <div class="card">
-        <div class="toolbar">
-          <strong>Reports</strong>
-          <select id="filterReportContainer" style="max-width:260px" class="right"></select>
-          <button id="btnNewReport" class="btn">Tambah</button>
-        </div>
-        <div class="mt12" style="overflow:auto">
-          <table id="tblReports">
-            <thead><tr><th>ID</th><th>Container</th><th>Tanggal</th><th>Catatan</th><th style="width:140px">Aksi</th></tr></thead>
-            <tbody><tr><td colspan="5" class="muted">Memuat…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- SHEEP REPORTS -->
-    <div id="tab-sheepReports" class="mt16 hidden">
-      <div class="card">
-        <div class="toolbar">
-          <strong>Sheep Reports</strong>
-          <select id="filterSheep" style="max-width:260px" class="right"></select>
-          <button id="btnNewSheepReport" class="btn">Tambah</button>
-        </div>
-        <div class="mt12" style="overflow:auto">
-          <table id="tblSheepReports">
-            <thead><tr><th>ID</th><th>Sheep</th><th>Waktu</th><th>Status</th><th style="width:160px">Aksi</th></tr></thead>
-            <tbody><tr><td colspan="5" class="muted">Memuat…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- MODAL -->
-<div id="modal" class="hidden" style="position:fixed;inset:0;background:rgba(17,24,39,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50">
-  <div class="card" style="width:min(720px,100%);max-height:90vh;overflow:auto">
-    <div class="toolbar"><strong id="modalTitle">Modal</strong><button id="modalClose" class="right">Tutup</button></div>
-    <div id="modalBody" class="mt12"></div>
   </div>
-</div>
 
 <script>
-/* ====== CONFIG + HELPERS ====== */
+/* =========================
+   CONFIG & HELPERS
+========================= */
 const API_BASE = "https://damayanti-api.vercel.app";
-let ADMIN_TOKEN = localStorage.getItem("damayanti_token") || null;
+const $  = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
 
-const qs  = (s, r=document)=>r.querySelector(s);
-const qsa = (s, r=document)=>[...r.querySelectorAll(s)];
+function token() { return localStorage.getItem("token") || ""; }
+function setToken(t){ localStorage.setItem("token", t||""); paintAuth(); }
 
-function authHeaders(h={}){ return ADMIN_TOKEN ? { ...h, Authorization: "Bearer " + ADMIN_TOKEN } : h; }
-async function api(path, opts={}) {
-  const headers = authHeaders({ "Content-Type":"application/json", ...(opts.headers||{}) });
-  const res = await fetch(API_BASE + path, { ...opts, headers });
+function paintAuth(){
+  const t = token();
+  $("#loginState").textContent = t ? "Logged in" : "Logged out";
+  $("#btnLogin").style.display  = t ? "none" : "";
+  $("#btnLogout").style.display = t ? "" : "none";
+}
+
+// helper fetch dengan error detail
+async function api(url, opts = {}) {
+  const headers = {
+    "Content-Type": "application/json",
+    ...(token() ? { "Authorization": `Bearer ${token()}` } : {}),
+    ...(opts.headers || {})
+  };
+  const res = await fetch(`${API_BASE}${url}`, { ...opts, headers });
 
   if (!res.ok) {
-    let msg = `${res.status} ${res.statusText}`;
+    let detail = `${res.status} : ${res.statusText}`;
     try {
-      const j = await res.json();
-      msg += `: ${j.message || j.error || JSON.stringify(j)}`;
+      const data = await res.json();
+      // tampilin pesan detail dari backend kalau ada
+      const msg = data.message || data.error || JSON.stringify(data);
+      detail = `${res.status} : ${msg}`;
     } catch {
-      const t = await res.text().catch(()=> "");
-      if (t) msg += `: ${t}`;
+      const txt = await res.text().catch(()=>"");
+      if (txt) detail = `${res.status} : ${txt}`;
     }
-    throw new Error(msg);
+    throw new Error(detail);
   }
-  return res.status===204 ? null : res.json();
+  if (res.status === 204) return null;
+  return res.json();
 }
-function unwrapList(p){ if(Array.isArray(p)) return p; if(p && Array.isArray(p.data)) return p.data; return []; }
-function fmtDate(x){ try{return new Date(x).toLocaleString()}catch{return x||"-"} }
-function mustAdmin(){ if(!ADMIN_TOKEN){ alert("Aksi ini membutuhkan login admin. Silakan login dulu."); return false; } return true; }
-function showErr(e){ alert(e?.message || "Terjadi kesalahan"); }
+function showErr(e){ alert(e.message || e); }
 
-/* ====== AUTH ====== */
-const loginSection = qs("#loginSection"), mainSection = qs("#mainSection");
-const authInfo = qs("#authInfo"), btnLogout = qs("#btnLogout");
-function syncAuthUI(){
-  if(ADMIN_TOKEN){ authInfo.textContent="Logged in"; btnLogout.classList.remove("hidden"); loginSection.classList.add("hidden"); mainSection.classList.remove("hidden"); }
-  else{ authInfo.textContent="Belum login"; btnLogout.classList.add("hidden"); loginSection.classList.remove("hidden"); mainSection.classList.add("hidden"); }
-}
-qs("#btnLogin").onclick = async ()=>{
-  const email=qs("#loginEmail").value.trim(), password=qs("#loginPass").value;
-  qs("#loginMsg").textContent="Memproses…";
-  try{
-    const data = await fetch(API_BASE+"/api/auth/login",{
-      method:"POST",headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify({email,password})
-    }).then(r=>r.json());
-    ADMIN_TOKEN = data?.token || data?.access_token; 
-    if(!ADMIN_TOKEN) throw new Error("Token tidak ditemukan di respons.");
-    localStorage.setItem("damayanti_token", ADMIN_TOKEN);
-    qs("#loginMsg").textContent="Berhasil masuk.";
-    syncAuthUI(); boot();
-  }catch(e){ qs("#loginMsg").textContent="Gagal login: "+e.message; }
-};
-btnLogout.onclick = ()=>{ ADMIN_TOKEN=null; localStorage.removeItem("damayanti_token"); syncAuthUI(); };
-
-/* ====== TABS ====== */
-const tabs = qs("#tabs");
-tabs.onclick = (e)=>{
-  const t=e.target.closest(".tab"); if(!t) return;
-  qsa(".tab").forEach(x=>x.classList.remove("active")); t.classList.add("active");
-  qsa('[id^="tab-"]').forEach(x=>x.classList.add("hidden")); qs("#tab-"+t.dataset.tab).classList.remove("hidden");
-  if(t.dataset.tab==="summary") loadSummary();
-  if(t.dataset.tab==="containers") loadContainers();
-  if(t.dataset.tab==="students")   loadStudents();
-  if(t.dataset.tab==="sheeps")     loadSheeps();
-  if(t.dataset.tab==="sensor")     loadSensor();
-  if(t.dataset.tab==="reports")    loadReports();
-  if(t.dataset.tab==="sheepReports") loadSheepReports();
+/* =========================
+   Router tab sederhana
+========================= */
+let tab = "students"; // default kamu sering uji students
+let state = {
+  containers: [],
+  students:   [],
+  sheeps:     [],
+  sensors:    [],
+  reports:    []
 };
 
-/* ====== MODAL ====== */
-const modal = qs("#modal"), modalBody = qs("#modalBody"), modalTitle = qs("#modalTitle");
-qs("#modalClose").onclick = ()=>modal.classList.add("hidden");
-function openModal(title, html){ modalTitle.textContent=title; modalBody.innerHTML=html; modal.classList.remove("hidden"); }
-
-/* ====== SUMMARY ====== */
-async function loadSummary(){
-  try{
-    const [containers, students, sheeps, sensor, reports, sReports] = await Promise.all([
-      api("/api/containers?limit=1000").catch(()=>({data:[]})),
-      api("/api/students?limit=1000").catch(()=>({data:[]})),
-      api("/api/sheeps?limit=1000").catch(()=>({data:[]})),
-      api("/api/sensor-data?limit=1000").catch(()=>({data:[]})),
-      api("/api/reports?limit=1000").catch(()=>({data:[]})),
-      api("/api/sheep-reports?limit=1000").catch(()=>({data:[]})),
-    ]);
-    qs("#sumContainers").textContent = unwrapList(containers).length;
-    qs("#sumStudents").textContent  = unwrapList(students).length;
-    qs("#sumSheeps").textContent    = unwrapList(sheeps).length;
-    qs("#sumSensor").textContent    = unwrapList(sensor).length;
-    qs("#sumReports").textContent   = unwrapList(reports).length;
-    qs("#sumSheepReports").textContent = unwrapList(sReports).length;
-  }catch(e){ console.error(e); }
+function setTab(name){
+  tab = name;
+  $$(".pill").forEach(p=>p.classList.toggle("active", p.dataset.tab===name));
+  render();
 }
 
-/* ====== CONTAINERS (CRUD) ====== */
-let cacheContainers=[];
+$$(".pill").forEach(p => p.onclick = () => setTab(p.dataset.tab));
+
+/* =========================
+   Views
+========================= */
+async function render(){
+  const v = $("#view");
+  v.innerHTML = "";
+
+  if (tab === "summary") return renderSummary(v);
+  if (tab === "containers") return renderContainers(v);
+  if (tab === "students") return renderStudents(v);
+  if (tab === "sensor") return renderSensors(v);
+  if (tab === "reports") return renderReports(v);
+  if (tab === "sheeps") return renderSheeps(v);
+}
+
+/* =========================
+   SUMMARY
+========================= */
+async function renderSummary(host){
+  host.innerHTML = `
+    <div class="card">
+      <div class="row">
+        <div class="title">Ringkasan</div>
+        <span class="badge">read only</span>
+      </div>
+      <div class="mt12 muted">Gunakan tab lain untuk CRUD.</div>
+    </div>
+  `;
+}
+
+/* =========================
+   CONTAINERS (Admin only)
+========================= */
 async function loadContainers(){
-  const tb = qs("#tblContainers tbody");
-  try{
-    cacheContainers = unwrapList(await api("/api/containers?limit=500"));
-    renderContainerTable(cacheContainers);
-    qs("#searchContainers").oninput = (e)=>{
-      const q = e.target.value.toLowerCase();
-      renderContainerTable(cacheContainers.filter(c=>((c.name||c.code||"")+(c.location||"")).toLowerCase().includes(q)));
-    };
-    qs("#btnNewContainer").onclick = ()=>{ if(!mustAdmin()) return; showContainerForm(); };
-  }catch(e){
-    tb.innerHTML = `<tr><td colspan="5" class="muted">
-      Gagal memuat containers: ${e.message}.
-      ${/user_id does not exist/i.test(e.message) ? "Ini bug di backend (kolom user_id tidak ada)." : ""}
-    </td></tr>`;
-  }
+  try { state.containers = await api("/api/containers"); }
+  catch(e){ state.containers = []; showErr(e); }
 }
 function renderContainerTable(list){
-  const tb = qs("#tblContainers tbody");
-  tb.innerHTML = list.length ? list.map(c=>`
-    <tr>
-      <td class="muted">${c.id}</td>
-      <td>${c.name||c.code||"-"}</td>
-      <td>${c.location||"-"}</td>
-      <td class="muted">${fmtDate(c.created_at)}</td>
-      <td>
-        <button class="btn warn" data-ed="${c.id}" ${!ADMIN_TOKEN?'disabled':''}>Ubah</button>
-        <button class="btn bad" data-del="${c.id}" ${!ADMIN_TOKEN?'disabled':''}>Hapus</button>
-      </td>
-    </tr>`).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`;
-  tb.onclick = async (e)=>{
-    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
-    if(ed){ if(!mustAdmin()) return; const item=cacheContainers.find(x=>x.id===ed.dataset.ed); showContainerForm(item); }
-    if(del){ if(!mustAdmin()) return; if(!confirm("Hapus container ini?")) return;
-      try{ await api("/api/containers/"+del.dataset.del,{method:"DELETE"}); loadContainers(); }catch(err){ showErr(err); }
-    }
+  return `
+    <table class="mt12">
+      <thead><tr>
+        <th>ID</th><th>Nama/Kode</th><th>Lokasi</th><th>Dibuat</th><th>Aksi</th>
+      </tr></thead>
+      <tbody>
+        ${list.length ? list.map(c=>`
+          <tr>
+            <td>${c.id}</td>
+            <td>${c.name || c.code || "-"}</td>
+            <td>${c.location || "-"}</td>
+            <td>${c.created_at ? new Date(c.created_at).toLocaleString() : "-"}</td>
+            <td class="toolbar">
+              <button class="btn ghost" data-edc="${c.id}">Ubah</button>
+              <button class="btn danger" data-delc="${c.id}">Hapus</button>
+            </td>
+          </tr>
+        `).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`}
+      </tbody>
+    </table>
+  `;
+}
+async function renderContainers(host){
+  await loadContainers();
+  host.innerHTML = `
+    <div class="card">
+      <div class="row">
+        <div class="title">Containers</div>
+        <span class="badge">Admin only tambah/ubah/hapus</span>
+        <div class="space"></div>
+        <input id="cariC" placeholder="Cari nama/kode..." style="max-width:320px">
+        <button class="btn" id="btnAddC">Tambah</button>
+      </div>
+      <div id="tblC">${renderContainerTable(state.containers)}</div>
+    </div>
+  `;
+  $("#btnAddC").onclick = ()=> showContainerForm();
+  $("#tblC").onclick = e=>{
+    const del = e.target.closest("[data-delc]");
+    const ed  = e.target.closest("[data-edc]");
+    if (del) deleteContainer(del.dataset.delc);
+    if (ed)  showContainerForm(state.containers.find(x=>x.id===ed.dataset.edc));
   };
 }
 function showContainerForm(item){
-  openModal(item?"Ubah Container":"Tambah Container", `
-    <div class="grid g2">
-      <div><label class="muted">Kode (wajib)</label><input id="fCode" value="${item?.code||item?.name||""}"></div>
-      <div><label class="muted">Nama (opsional)</label><input id="fName" value="${item?.name||""}"></div>
-      <div><label class="muted">Lokasi</label><input id="fLoc" value="${item?.location||""}"></div>
+  openModal(item ? "Ubah Container":"Tambah Container", `
+    <div class="mt8">
+      <label class="muted">Nama/Kode</label>
+      <input id="cName" value="${item?.name || item?.code || ""}">
     </div>
-    <div class="toolbar mt16"><button id="save" class="btn">${item?"Simpan":"Buat"}</button></div>
-    <div class="note">Endpoint: ${item? "PUT /api/containers/{id}" : "POST /api/containers"} — field utama: <b>code</b>, <i>location</i>, (opsional <i>name</i>)</div>
+    <div class="mt8">
+      <label class="muted">Lokasi</label>
+      <input id="cLoc" value="${item?.location || ""}">
+    </div>
+    <div class="toolbar mt16"><button id="saveC" class="btn">${item?"Simpan":"Buat"}</button></div>
   `);
-  qs("#save").onclick = async ()=>{
-    if(!mustAdmin()) return;
-    const payload = { code: qs("#fCode").value.trim(), location: qs("#fLoc").value.trim() };
-    const nm = qs("#fName").value.trim(); if(nm) payload.name = nm;
-    if(!payload.code){ alert("Kode wajib diisi."); return; }
+  $("#saveC").onclick = async ()=>{
+    const payload = { name: $("#cName").value.trim(), location: $("#cLoc").value.trim() };
     try{
-      const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
-      if(item) await api("/api/containers/"+item.id, opts); else await api("/api/containers", opts);
-      modal.classList.add("hidden"); loadContainers();
+      if(item) await api(`/api/containers/${item.id}`, {method:"PUT", body:JSON.stringify(payload)});
+      else     await api(`/api/containers`,          {method:"POST",body:JSON.stringify(payload)});
+      closeModal(); renderContainers($("#view"));
     }catch(e){ showErr(e); }
   };
 }
+async function deleteContainer(id){
+  if(!confirm("Hapus container ini?")) return;
+  try{ await api(`/api/containers/${id}`, {method:"DELETE"}); renderContainers($("#view")); }
+  catch(e){ showErr(e); }
+}
 
-/* ====== STUDENTS (CRUD) — kirim {name} saja ====== */
-let cacheStudents=[];
+/* =========================
+   STUDENTS (Admin only)
+========================= */
 async function loadStudents(){
-  try{
-    const res = await api("/api/students?limit=500").catch(()=>({data:[]}));
-    cacheStudents = Array.isArray(res) ? res : (res.data || []);
-    renderStudentTable(cacheStudents);
-    qs("#searchStudents").oninput = (e)=>{
-      const q=e.target.value.toLowerCase();
-      renderStudentTable(cacheStudents.filter(s=>(s.name||s.full_name||"").toLowerCase().includes(q)));
-    };
-    qs("#btnNewStudent").onclick = ()=>{ if(!mustAdmin()) return; showStudentForm(); };
-  }catch(e){
-    const tb = qs("#tblStudents tbody");
-    tb.innerHTML = `<tr><td colspan="4" class="muted">Gagal memuat students: ${e.message}</td></tr>`;
-  }
+  try { state.students = await api("/api/students"); }
+  catch(e){ state.students = []; showErr(e); }
 }
 function renderStudentTable(list){
-  const tb = qs("#tblStudents tbody");
-  tb.innerHTML = list.length ? list.map(s=>`
-    <tr>
-      <td class="muted">${s.id}</td>
-      <td>${s.name||s.full_name||"-"}</td>
-      <td class="muted">${fmtDate(s.created_at)}</td>
-      <td>
-        <button class="btn warn" data-ed="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Ubah</button>
-        <button class="btn bad" data-del="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Hapus</button>
-      </td>
-    </tr>`).join("") : `<tr><td colspan="4" class="muted">Tidak ada data.</td></tr>`;
-  tb.onclick = async (e)=>{
-    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
-    if(ed){ if(!mustAdmin()) return; const it=cacheStudents.find(x=>x.id===ed.dataset.ed); showStudentForm(it); }
-    if(del){ if(!mustAdmin()) return; if(!confirm("Hapus student ini?")) return;
-      try{ await api("/api/students/"+del.dataset.del,{method:"DELETE"}); loadStudents(); }catch(err){ showErr(err); }
-    }
+  return `
+    <table class="mt12">
+      <thead><tr><th>ID</th><th>Nama</th><th>Dibuat</th><th>Aksi</th></tr></thead>
+      <tbody>
+        ${list.length ? list.map(s=>`
+          <tr>
+            <td>${s.id}</td>
+            <td>${s.name || s.full_name || "-"}</td>
+            <td>${s.created_at ? new Date(s.created_at).toLocaleString() : "-"}</td>
+            <td class="toolbar">
+              <button class="btn ghost" data-eds="${s.id}">Ubah</button>
+              <button class="btn danger" data-dels="${s.id}">Hapus</button>
+            </td>
+          </tr>
+        `).join("") : `<tr><td colspan="4" class="muted">Tidak ada data.</td></tr>`}
+      </tbody>
+    </table>
+  `;
+}
+async function renderStudents(host){
+  await loadStudents();
+  host.innerHTML = `
+    <div class="card">
+      <div class="row">
+        <div class="title">Students</div>
+        <span class="badge">Admin only tambah/ubah/hapus</span>
+        <div class="space"></div>
+        <input id="searchS" placeholder="Cari nama..." style="max-width:320px">
+        <button class="btn" id="btnAddS">Tambah</button>
+      </div>
+      <div id="tblS">${renderStudentTable(state.students)}</div>
+    </div>
+  `;
+  $("#btnAddS").onclick = ()=> showStudentForm();
+  $("#tblS").onclick = e=>{
+    const del = e.target.closest("[data-dels]");
+    const ed  = e.target.closest("[data-eds]");
+    if (del) deleteStudent(del.dataset.dels);
+    if (ed)  showStudentForm(state.students.find(x=>x.id===ed.dataset.eds));
   };
 }
 function showStudentForm(item){
@@ -411,258 +312,332 @@ function showStudentForm(item){
     <div class="toolbar mt16">
       <button id="saveS" class="btn">${item ? "Simpan" : "Buat"}</button>
     </div>
-    <div class="note">
-      Endpoint: ${item ? "PUT /api/students/{id}" : "POST /api/students"} — field dikirim: <b>full_name</b> & <b>name</b>
-    </div>
+    <div class="note">Endpoint: ${item ? "PUT /api/students/{id}" : "POST /api/students"} — field dikirim: <b>full_name</b> & <b>name</b> (auto fallback)</div>
   `);
 
-  qs("#saveS").onclick = async ()=>{
-    if(!mustAdmin()) return;
-    const nm = qs("#sName").value.trim();
+  $("#saveS").onclick = async ()=>{
+    const nm = $("#sName").value.trim();
     if (nm.length < 3) { alert("Nama minimal 3 karakter."); return; }
-    const payload = { full_name: nm, name: nm }; // <-- kirim dua-duanya
+
     try{
-      const opts = { method: item ? "PUT" : "POST", body: JSON.stringify(payload) };
-      if(item) await api("/api/students/"+item.id, opts);
-      else     await api("/api/students", opts);
-      modal.classList.add("hidden"); loadStudents();
+      if (item) {
+        // Saat update kirim dua-duanya juga
+        await api(`/api/students/${item.id}`, { method:"PUT", body: JSON.stringify({ full_name: nm, name: nm }) });
+      } else {
+        // SMART CREATE: coba 3 skema berbeda agar lolos validasi backend apa pun
+        await tryCreateStudentSmart(nm);
+      }
+      closeModal(); renderStudents($("#view"));
     }catch(e){ showErr(e); }
   };
 }
-
-
-/* ====== SHEEPS (CRUD) — tanpa umur ====== */
-let cacheSheeps=[];
-async function loadSheeps(){
-  try{
-    cacheSheeps = unwrapList(await api("/api/sheeps?limit=500"));
-    renderSheeps(cacheSheeps);
-    qs("#searchSheeps").oninput = (e)=>{
-      const q=e.target.value.toLowerCase();
-      renderSheeps(cacheSheeps.filter(s=>(s.name||"").toLowerCase().includes(q)));
-    };
-    qs("#btnNewSheep").onclick = ()=>{ if(!mustAdmin()) return; showSheepForm(); };
-  }catch(e){
-    const tb = qs("#tblSheeps tbody");
-    tb.innerHTML = `<tr><td colspan="4" class="muted">Gagal memuat sheeps: ${e.message}</td></tr>`;
+async function tryCreateStudentSmart(nm){
+  // 1) Dua-duanya
+  try { 
+    return await api("/api/students", { method:"POST", body: JSON.stringify({ full_name: nm, name: nm }) });
+  } catch(e1){
+    // 2) Hanya full_name
+    try {
+      return await api("/api/students", { method:"POST", body: JSON.stringify({ full_name: nm }) });
+    } catch(e2){
+      // 3) Hanya name
+      try {
+        return await api("/api/students", { method:"POST", body: JSON.stringify({ name: nm }) });
+      } catch(e3){
+        // munculkan error paling detail (urutan terakhir biasanya paling informatif)
+        throw e3;
+      }
+    }
   }
 }
-function renderSheeps(list){
-  const tb = qs("#tblSheeps tbody");
-  tb.innerHTML = list.length ? list.map(s=>`
-    <tr>
-      <td class="muted">${s.id}</td>
-      <td>${s.name||"-"}</td>
-      <td class="muted">${fmtDate(s.created_at)}</td>
-      <td>
-        <button class="btn warn" data-ed="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Ubah</button>
-        <button class="btn bad" data-del="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Hapus</button>
-      </td>
-    </tr>`).join("") : `<tr><td colspan="4" class="muted">Tidak ada data.</td></tr>`;
-  tb.onclick = async (e)=>{
-    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
-    if(ed){ if(!mustAdmin()) return; const it=cacheSheeps.find(x=>x.id===ed.dataset.ed); showSheepForm(it); }
-    if(del){ if(!mustAdmin()) return; if(!confirm("Hapus sheep ini?")) return;
-      try{ await api("/api/sheeps/"+del.dataset.del,{method:"DELETE"}); loadSheeps(); }catch(err){ showErr(err); }
-    }
+async function deleteStudent(id){
+  if(!confirm("Hapus student ini?")) return;
+  try{ await api(`/api/students/${id}`, {method:"DELETE"}); renderStudents($("#view")); }
+  catch(e){ showErr(e); }
+}
+
+/* =========================
+   SHEEPS (tanpa umur)
+========================= */
+async function loadSheeps(){
+  try { state.sheeps = await api("/api/sheeps"); }
+  catch(e){ state.sheeps = []; showErr(e); }
+}
+function renderSheepTable(list){
+  return `
+    <table class="mt12">
+      <thead><tr><th>ID</th><th>Nama</th><th>Dibuat</th><th>Aksi</th></tr></thead>
+      <tbody>
+        ${list.length ? list.map(sh=>`
+          <tr>
+            <td>${sh.id}</td>
+            <td>${sh.name || "-"}</td>
+            <td>${sh.created_at ? new Date(sh.created_at).toLocaleString() : "-"}</td>
+            <td class="toolbar">
+              <button class="btn ghost" data-edsheep="${sh.id}">Ubah</button>
+              <button class="btn danger" data-delsheep="${sh.id}">Hapus</button>
+            </td>
+          </tr>
+        `).join("") : `<tr><td colspan="4" class="muted">Tidak ada data.</td></tr>`}
+      </tbody>
+    </table>
+  `;
+}
+async function renderSheeps(host){
+  await loadSheeps();
+  host.innerHTML = `
+    <div class="card">
+      <div class="row">
+        <div class="title">Sheeps</div>
+        <span class="badge">CRUD nama saja</span>
+        <div class="space"></div>
+        <input id="searchSh" placeholder="Cari nama..." style="max-width:320px">
+        <button class="btn" id="btnAddSh">Tambah</button>
+      </div>
+      <div id="tblSh">${renderSheepTable(state.sheeps)}</div>
+    </div>
+  `;
+  $("#btnAddSh").onclick = ()=> showSheepForm();
+  $("#tblSh").onclick = e=>{
+    const del = e.target.closest("[data-delsheep]");
+    const ed  = e.target.closest("[data-edsheep]");
+    if (del) deleteSheep(del.dataset.delsheep);
+    if (ed)  showSheepForm(state.sheeps.find(x=>x.id===ed.dataset.edsheep));
   };
 }
 function showSheepForm(item){
-  openModal(item?"Ubah Sheep":"Tambah Sheep", `
-    <div><label class="muted">Nama</label><input id="shName" value="${item?.name||""}"></div>
-    <div class="toolbar mt16"><button id="saveSh" class="btn">${item?"Simpan":"Buat"}</button></div>
-    <div class="note">Endpoint: ${item? "PUT /api/sheeps/{id}" : "POST /api/sheeps"}</div>
+  openModal(item ? "Ubah Sheep" : "Tambah Sheep", `
+    <div>
+      <label class="muted">Nama</label>
+      <input id="shName" minlength="2" value="${item?.name || ""}">
+    </div>
+    <div class="toolbar mt16">
+      <button id="saveSh" class="btn">${item ? "Simpan" : "Buat"}</button>
+    </div>
   `);
-  qs("#saveSh").onclick = async ()=>{
-    if(!mustAdmin()) return;
-    const payload = { name: qs("#shName").value.trim() };
-    if(!payload.name){ alert("Nama wajib diisi."); return; }
+  $("#saveSh").onclick = async ()=>{
+    const nm = $("#shName").value.trim();
+    if (!nm) { alert("Nama tidak boleh kosong"); return; }
     try{
-      const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
-      if(item) await api("/api/sheeps/"+item.id, opts); else await api("/api/sheeps", opts);
-      modal.classList.add("hidden"); loadSheeps();
+      if(item) await api(`/api/sheeps/${item.id}`, {method:"PUT",  body:JSON.stringify({name:nm})});
+      else     await api(`/api/sheeps`,          {method:"POST", body:JSON.stringify({name:nm})});
+      closeModal(); renderSheeps($("#view"));
     }catch(e){ showErr(e); }
   };
 }
-
-/* ====== SENSOR DATA ====== */
-let cacheSensor=[], containersMini=[];
-async function loadSensor(){
-  const tb = qs("#tblSensor tbody");
-  try{
-    containersMini = unwrapList(await api("/api/containers?limit=500"));
-    const sel=qs("#filterSensorContainer");
-    sel.innerHTML = `<option value="">Semua container</option>`+containersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("");
-
-    cacheSensor = unwrapList(await api("/api/sensor-data?limit=500"));
-    renderSensorTable(); sel.onchange=renderSensorTable;
-    qs("#btnNewSensor").onclick = ()=>showSensorForm();
-  }catch(e){
-    tb.innerHTML = `<tr><td colspan="9" class="muted">
-      Gagal memuat sensor data: ${e.message}.
-      ${/user_id does not exist/i.test(e.message) ? "Ini bug di backend (kolom user_id tidak ada)." : ""}
-    </td></tr>`;
-  }
+async function deleteSheep(id){
+  if(!confirm("Hapus sheep ini?")) return;
+  try{ await api(`/api/sheeps/${id}`, {method:"DELETE"}); renderSheeps($("#view")); }
+  catch(e){ showErr(e); }
 }
-function renderSensorTable(){
-  const cid=qs("#filterSensorContainer").value;
-  const list=cacheSensor.filter(x=>!cid || x.container_id===cid);
-  const tb=qs("#tblSensor tbody");
-  tb.innerHTML = list.length ? list.map(r=>{
-    const cName=(containersMini.find(c=>c.id===r.container_id)?.name)||r.container_id||"-";
-    return `<tr>
-      <td class="muted">${r.id}</td><td>${cName}</td><td class="muted">${fmtDate(r.recorded_at||r.created_at)}</td>
-      <td>${r.temperature ?? "-"}</td><td>${r.humidity ?? "-"}</td><td>${r.gas ?? "-"}</td><td>${r.ph ?? "-"}</td>
-      <td>${r.status ?? "-"}</td>
-      <td><button class="btn warn" data-ed="${r.id}">Ubah</button> <button class="btn bad" data-del="${r.id}">Hapus</button></td>
-    </tr>`;
-  }).join("") : `<tr><td colspan="9" class="muted">Tidak ada data.</td></tr>`;
-  tb.onclick = async (e)=>{
-    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
-    if(ed){ const it=cacheSensor.find(x=>x.id===ed.dataset.ed); showSensorForm(it); }
-    if(del){ if(!confirm("Hapus record ini?")) return;
-      try{ await api("/api/sensor-data/"+del.dataset.del,{method:"DELETE"}); loadSensor(); }catch(err){ showErr(err); }
+
+/* =========================
+   SENSOR DATA (read/CRUD)
+========================= */
+async function loadSensors(){
+  try { state.sensors = await api("/api/sensor-data"); }
+  catch(e){ state.sensors = []; showErr(e); }
+}
+function renderSensorTable(list){
+  return `
+    <table class="mt12">
+      <thead>
+        <tr><th>ID</th><th>Container</th><th>Recorded</th><th>T</th><th>H</th><th>G</th><th>pH</th><th>Status</th><th>Aksi</th></tr>
+      </thead>
+      <tbody>
+        ${list.length ? list.map(s=>`
+          <tr>
+            <td>${s.id}</td>
+            <td>${s.container_id || "-"}</td>
+            <td>${s.recorded_at ? new Date(s.recorded_at).toLocaleString() : "-"}</td>
+            <td>${s.temperature ?? "-"}</td>
+            <td>${s.humidity ?? "-"}</td>
+            <td>${s.gas ?? "-"}</td>
+            <td>${s.ph ?? "-"}</td>
+            <td>${s.status ?? "-"}</td>
+            <td class="toolbar">
+              <button class="btn danger" data-delsen="${s.id}">Hapus</button>
+            </td>
+          </tr>
+        `).join("") : `<tr><td colspan="9" class="muted">Tidak ada data.</td></tr>`}
+      </tbody>
+    </table>
+  `;
+}
+async function renderSensors(host){
+  await loadSensors();
+  host.innerHTML = `
+    <div class="card">
+      <div class="row">
+        <div class="title">Sensor Data</div>
+        <div class="space"></div>
+        <button class="btn" id="btnAddSen">Tambah</button>
+      </div>
+      <div id="tblSen">${renderSensorTable(state.sensors)}</div>
+    </div>
+  `;
+  $("#btnAddSen").onclick = ()=> showSensorForm();
+  $("#tblSen").onclick = async e=>{
+    const del = e.target.closest("[data-delsen]");
+    if (del && confirm("Hapus data ini?")) {
+      try{ await api(`/api/sensor-data/${del.dataset.delsen}`, {method:"DELETE"}); renderSensors($("#view")); }
+      catch(e){ showErr(e); }
     }
   };
 }
-function showSensorForm(item){
-  openModal(item?"Ubah Sensor Data":"Tambah Sensor Data", `
-    <div class="grid g2">
-      <div><label class="muted">Container</label><select id="sdC">${containersMini.map(c=>`<option value="${c.id}" ${item?.container_id===c.id?"selected":""}>${c.name||c.code||c.id}</option>`).join("")}</select></div>
-      <div><label class="muted">Waktu (ISO)</label><input id="sdTime" value="${item?.recorded_at || new Date().toISOString()}"></div>
-      <div><label class="muted">Suhu (°C)</label><input id="sdT" type="number" step="0.1" value="${item?.temperature ?? ""}"></div>
-      <div><label class="muted">Kelembapan (%)</label><input id="sdH" type="number" step="0.1" value="${item?.humidity ?? ""}"></div>
-      <div><label class="muted">Gas (ppm)</label><input id="sdG" type="number" step="0.1" value="${item?.gas ?? ""}"></div>
-      <div><label class="muted">pH</label><input id="sdP" type="number" step="0.1" value="${item?.ph ?? ""}"></div>
-      <div><label class="muted">Status</label><select id="sdS">${["Merah","Kuning","Hijau"].map(s=>`<option ${item?.status===s?"selected":""}>${s}</option>`).join("")}</select></div>
+function showSensorForm(){
+  openModal("Tambah Sensor Data", `
+    <div class="row">
+      <div style="flex:1">
+        <label class="muted">Container ID</label>
+        <input id="sdC" placeholder="container_id">
+      </div>
+      <div style="width:160px">
+        <label class="muted">Tanggal/Waktu</label>
+        <input id="sdT" type="datetime-local">
+      </div>
     </div>
-    <div class="toolbar mt16"><button id="sdSave" class="btn">${item?"Simpan":"Buat"}</button></div>
+    <div class="row mt12">
+      <input id="sdTemp" placeholder="Temperature (°C)">
+      <input id="sdHum"  placeholder="Humidity (%)">
+      <input id="sdGas"  placeholder="Gas (ppm)">
+      <input id="sdPh"   placeholder="pH">
+    </div>
+    <div class="mt12">
+      <label class="muted">Status</label>
+      <input id="sdStatus" placeholder="Merah/Kuning/Hijau">
+    </div>
+    <div class="toolbar mt16"><button class="btn" id="saveSD">Simpan</button></div>
   `);
-  qs("#sdSave").onclick = async ()=>{
+  $("#saveSD").onclick = async ()=>{
     const payload = {
-      container_id: qs("#sdC").value, recorded_at: qs("#sdTime").value,
-      temperature:+qs("#sdT").value, humidity:+qs("#sdH").value, gas:+qs("#sdG").value, ph:+qs("#sdP").value,
-      status: qs("#sdS").value
+      container_id: $("#sdC").value.trim(),
+      recorded_at:  $("#sdT").value ? new Date($("#sdT").value).toISOString() : new Date().toISOString(),
+      temperature:  parseFloat($("#sdTemp").value) || null,
+      humidity:     parseFloat($("#sdHum").value)  || null,
+      gas:          parseFloat($("#sdGas").value)  || null,
+      ph:           parseFloat($("#sdPh").value)   || null,
+      status:       $("#sdStatus").value.trim() || null
     };
     try{
-      const opts={method:item?"PUT":"POST", body:JSON.stringify(payload)};
-      if(item) await api("/api/sensor-data/"+item.id, opts); else await api("/api/sensor-data", opts);
-      modal.classList.add("hidden"); loadSensor();
+      await api("/api/sensor-data", {method:"POST", body:JSON.stringify(payload)});
+      closeModal(); renderSensors($("#view"));
     }catch(e){ showErr(e); }
   };
 }
 
-/* ====== REPORTS ====== */
-let cacheReports=[];
+/* =========================
+   REPORTS (read/CRUD)
+========================= */
 async function loadReports(){
-  const tb = qs("#tblReports tbody");
-  try{
-    containersMini = unwrapList(await api("/api/containers?limit=500"));
-    qs("#filterReportContainer").innerHTML = `<option value="">Semua container</option>`+
-      containersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("");
-
-    cacheReports = unwrapList(await api("/api/reports?limit=500"));
-    renderReportsTable();
-    qs("#filterReportContainer").onchange = renderReportsTable;
-    qs("#btnNewReport").onclick = ()=>showReportForm();
-  }catch(e){
-    tb.innerHTML = `<tr><td colspan="5" class="muted">
-      Gagal memuat reports: ${e.message}.
-      ${/user_id does not exist/i.test(e.message) ? "Ini bug di backend (kolom user_id tidak ada)." : ""}
-    </td></tr>`;
-  }
+  try { state.reports = await api("/api/reports"); }
+  catch(e){ state.reports = []; showErr(e); }
 }
-function renderReportsTable(){
-  const cid = qs("#filterReportContainer").value;
-  const list = cacheReports.filter(r=>!cid || r.container_id===cid);
-  const tb = qs("#tblReports tbody");
-  tb.innerHTML = list.length ? list.map(r=>{
-    const nm = (containersMini.find(c=>c.id===r.container_id)?.name) || r.container_id || "-";
-    return `<tr>
-      <td class="muted">${r.id}</td><td>${nm}</td><td class="muted">${fmtDate(r.report_date||r.created_at)}</td>
-      <td>${r.notes?String(r.notes).replace(/</g,"&lt;"):"-"}</td>
-      <td><button class="btn bad" data-del="${r.id}">Hapus</button></td>
-    </tr>`;
-  }).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`;
-  tb.onclick = async (e)=>{
-    const del=e.target.closest("[data-del]"); if(!del) return;
-    if(!confirm("Hapus report ini?")) return;
-    try{ await api("/api/reports/"+del.dataset.del,{method:"DELETE"}); loadReports(); }catch(err){ showErr(err); }
+function renderReportTable(list){
+  return `
+    <table class="mt12">
+      <thead><tr><th>ID</th><th>Container</th><th>Tanggal</th><th>Catatan</th><th>Aksi</th></tr></thead>
+      <tbody>
+        ${list.length ? list.map(r=>`
+          <tr>
+            <td>${r.id}</td>
+            <td>${r.container_id || "-"}</td>
+            <td>${r.report_date ? new Date(r.report_date).toLocaleString() : "-"}</td>
+            <td>${r.notes || "-"}</td>
+            <td class="toolbar">
+              <button class="btn danger" data-delrep="${r.id}">Hapus</button>
+            </td>
+          </tr>
+        `).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`}
+      </tbody>
+    </table>
+  `;
+}
+async function renderReports(host){
+  await loadReports();
+  host.innerHTML = `
+    <div class="card">
+      <div class="row">
+        <div class="title">Reports</div>
+        <div class="space"></div>
+        <button class="btn" id="btnAddRep">Tambah</button>
+      </div>
+      <div id="tblRep">${renderReportTable(state.reports)}</div>
+    </div>
+  `;
+  $("#btnAddRep").onclick = ()=> showReportForm();
+  $("#tblRep").onclick = async e=>{
+    const del = e.target.closest("[data-delrep]");
+    if (del && confirm("Hapus report ini?")) {
+      try{ await api(`/api/reports/${del.dataset.delrep}`, {method:"DELETE"}); renderReports($("#view")); }
+      catch(e){ showErr(e); }
+    }
   };
 }
 function showReportForm(){
   openModal("Tambah Report", `
-    <div class="grid g2">
-      <div><label class="muted">Container</label><select id="rpC">${containersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("")}</select></div>
-      <div><label class="muted">Tanggal (ISO)</label><input id="rpD" value="${new Date().toISOString()}"></div>
+    <div class="row">
+      <input id="rpC" placeholder="Container ID">
+      <input id="rpT" type="datetime-local">
     </div>
-    <div class="mt12"><label class="muted">Catatan</label><textarea id="rpN" rows="4" placeholder="Ringkasan…"></textarea></div>
-    <div class="toolbar mt16"><button id="rpSave" class="btn">Buat</button></div>
-  `);
-  qs("#rpSave").onclick = async ()=>{
-    const payload = { container_id: qs("#rpC").value, report_date: qs("#rpD").value, notes: qs("#rpN").value };
-    try{ await api("/api/reports",{method:"POST", body:JSON.stringify(payload)}); modal.classList.add("hidden"); loadReports(); }catch(e){ showErr(e); }
-  };
-}
-
-/* ====== SHEEP REPORTS ====== */
-let cacheSheepReports=[];
-async function loadSheepReports(){
-  try{
-    cacheSheeps = unwrapList(await api("/api/sheeps?limit=1000"));
-    qs("#filterSheep").innerHTML = `<option value="">Semua kambing</option>`+cacheSheeps.map(s=>`<option value="${s.id}">${s.name||s.id}</option>`).join("");
-    cacheSheepReports = unwrapList(await api("/api/sheep-reports?limit=1000"));
-    renderSheepReportsTable();
-    qs("#filterSheep").onchange = renderSheepReportsTable;
-    qs("#btnNewSheepReport").onclick = ()=>showSheepReportForm();
-  }catch(e){
-    const tb = qs("#tblSheepReports tbody");
-    tb.innerHTML = `<tr><td colspan="5" class="muted">Gagal memuat sheep reports: ${e.message}</td></tr>`;
-  }
-}
-function renderSheepReportsTable(){
-  const sid = qs("#filterSheep").value;
-  const list = cacheSheepReports.filter(r=>!sid || r.sheep_id===sid);
-  const tb = qs("#tblSheepReports tbody");
-  tb.innerHTML = list.length ? list.map(r=>{
-    const nm = (cacheSheeps.find(s=>s.id===r.sheep_id)?.name) || r.sheep_id || "-";
-    return `<tr>
-      <td class="muted">${r.id}</td><td>${nm}</td><td class="muted">${fmtDate(r.feeding_time||r.created_at)}</td>
-      <td>${r.status||"-"}</td>
-      <td><button class="btn warn" data-ed="${r.id}">Ubah</button> <button class="btn bad" data-del="${r.id}">Hapus</button></td>
-    </tr>`;
-  }).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`;
-  tb.onclick = (e)=>{
-    const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
-    if(ed){ const it=cacheSheepReports.find(x=>x.id===ed.dataset.ed); showSheepReportForm(it); }
-    if(del){ if(!confirm("Hapus record ini?")) return;
-      api("/api/sheep-reports/"+del.dataset.del,{method:"DELETE"}).then(loadSheepReports).catch(showErr);
-    }
-  };
-}
-function showSheepReportForm(item){
-  openModal(item?"Ubah Sheep Report":"Tambah Sheep Report", `
-    <div class="grid g2">
-      <div><label class="muted">Sheep</label><select id="srS">${cacheSheeps.map(s=>`<option value="${s.id}" ${item?.sheep_id===s.id?"selected":""}>${s.name||s.id}</option>`).join("")}</select></div>
-      <div><label class="muted">Waktu (ISO)</label><input id="srT" value="${item?.feeding_time||new Date().toISOString()}"></div>
-      <div><label class="muted">Status</label><select id="srStatus">${["Sudah Diberi Makan","Belum Diberi Makan"].map(x=>`<option ${item?.status===x?"selected":""}>${x}</option>`).join("")}</select></div>
+    <div class="mt12">
+      <textarea id="rpN" rows="3" placeholder="Catatan"></textarea>
     </div>
-    <div class="toolbar mt16"><button id="srSave" class="btn">${item?"Simpan":"Buat"}</button></div>
+    <div class="toolbar mt16"><button class="btn" id="saveRep">Simpan</button></div>
   `);
-  qs("#srSave").onclick = async ()=>{
-    const payload = { sheep_id: qs("#srS").value, feeding_time: qs("#srT").value, status: qs("#srStatus").value };
+  $("#saveRep").onclick = async ()=>{
+    const payload = {
+      container_id: $("#rpC").value.trim(),
+      report_date:  $("#rpT").value ? new Date($("#rpT").value).toISOString() : new Date().toISOString(),
+      notes:        $("#rpN").value.trim()
+    };
     try{
-      const opts={method:item?"PUT":"POST", body:JSON.stringify(payload)};
-      if(item) await api("/api/sheep-reports/"+item.id, opts); else await api("/api/sheep-reports", opts);
-      modal.classList.add("hidden"); loadSheepReports();
+      await api("/api/reports", {method:"POST", body:JSON.stringify(payload)});
+      closeModal(); renderReports($("#view"));
     }catch(e){ showErr(e); }
   };
 }
 
-/* ====== BOOT ====== */
-function boot(){ syncAuthUI(); loadSummary(); }
-syncAuthUI(); if(ADMIN_TOKEN) boot();
+/* =========================
+   Modal helpers
+========================= */
+const modal = $("#modal");
+$("#modalClose").onclick = closeModal;
+function openModal(title, bodyHtml){
+  $("#modalTitle").innerHTML = title;
+  $("#modalBody").innerHTML  = bodyHtml;
+  modal.classList.add("open");
+}
+function closeModal(){ modal.classList.remove("open"); }
+
+/* =========================
+   Auth (login sederhana)
+========================= */
+$("#btnLogin").onclick = ()=>{
+  openModal("Login Admin", `
+    <div class="row">
+      <input id="lgEmail" placeholder="email">
+      <input id="lgPass" type="password" placeholder="password">
+    </div>
+    <div class="toolbar mt16"><button id="doLogin" class="btn">Login</button></div>
+    <div class="note">Endpoint: <b>POST /api/auth/login</b> → simpan token ke localStorage</div>
+  `);
+  $("#doLogin").onclick = async ()=>{
+    try{
+      const data = await api("/api/auth/login", {
+        method:"POST",
+        body:JSON.stringify({ email: $("#lgEmail").value.trim(), password: $("#lgPass").value })
+      });
+      setToken(data?.token || data?.access_token || "");
+      closeModal(); alert("Login sukses");
+    }catch(e){ showErr(e); }
+  };
+};
+$("#btnLogout").onclick = ()=>{ setToken(""); alert("Logged out"); };
+
+/* init */
+paintAuth();
+setTab(tab);
 </script>
 </body>
 </html>
-
