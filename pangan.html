@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monitoring Pangan Kambing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .step{padding:.5rem .9rem;border-radius:9999px;background:#e5e7eb;color:#374151}
+    .step.active{background:#2563eb;color:#fff}
+    .card{transition:transform .15s ease, box-shadow .15s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 10px 18px rgba(0,0,0,.08)}
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-emerald-50 to-green-100">
+  <header class="max-w-6xl mx-auto px-4 py-6 text-center">
+    <h1 class="text-3xl font-extrabold text-gray-800">Monitoring Pangan Kambing</h1>
+    <p class="text-sm text-gray-500">SLB DARMAYANTI</p>
+  </header>
+
+  <section class="max-w-6xl mx-auto px-4">
+    <div class="flex flex-wrap gap-2 justify-center">
+      <span id="p1" class="step active">1. Pilih Kambing</span>
+      <span id="p2" class="step">2. Centang Makan</span>
+      <span id="p3" class="step">3. Riwayat Data</span>
+    </div>
+  </section>
+
+  <main id="panganContent" class="max-w-6xl mx-auto px-4 mt-6 space-y-6"></main>
+
+  <!-- Modal info sederhana -->
+  <div id="okModal" class="fixed inset-0 hidden items-center justify-center">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative bg-white rounded-2xl shadow-xl w-[90%] max-w-md p-6 text-center">
+      <div class="text-3xl mb-2">✅</div>
+      <div class="font-semibold mb-1">Berhasil</div>
+      <div class="text-sm text-gray-600 mb-4">Data berhasil disimpan</div>
+      <button id="okBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg w-full">OK</button>
+    </div>
+  </div>
+
+  <script src="pangan.js"></script>
+</body>
+</html>

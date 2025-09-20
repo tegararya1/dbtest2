@@ -1,0 +1,29 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Lampu status */
+.sensor-light {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #333;
+  margin: 0 auto 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+.sensor-red { background: #ef4444; }
+.sensor-yellow { background: #eab308; }
+.sensor-green { background: #22c55e; }
+
+/* Step indicator */
+.step {
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: #e5e7eb;
+  color: #374151;
+  transition: all 0.3s ease;
+}
+.step.active {
+  background: #2563eb;
+  color: white;
+}

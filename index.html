@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jurnal Monitoring Sensor Pangan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="data:," />
+  <style>
+    .sensor-dot{width:60px;height:60px;border-radius:9999px;border:4px solid #1f2937;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+    .step{padding:.5rem .9rem;border-radius:9999px;background:#e5e7eb;color:#374151}
+    .step.active{background:#2563eb;color:#fff}
+    .card{transition:transform .15s ease, box-shadow .15s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 10px 18px rgba(0,0,0,.08)}
+    .backdrop{background:rgba(0,0,0,.45)}
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-indigo-50 to-blue-100">
+  <header class="max-w-6xl mx-auto px-4 py-6 flex items-center justify-between">
+    <div class="text-center mx-auto">
+      <h1 class="text-3xl font-extrabold text-gray-800">Jurnal Monitoring Sensor Pangan</h1>
+      <p class="text-sm text-gray-500">SLB DARMAYANTI</p>
+    </div>
+    <div class="hidden sm:block"></div>
+  </header>
+
+  <!-- Lampu status (indikator umum, bukan per drum) -->
+  <section class="max-w-6xl mx-auto px-4">
+    <div class="bg-white rounded-2xl shadow p-6 md:p-8">
+      <h2 class="text-center text-xl font-semibold mb-6">Informasi Status Sensor LED</h2>
+      <div class="grid grid-cols-3 gap-6 md:gap-12 max-w-3xl mx-auto">
+        <div class="text-center">
+          <div class="sensor-dot bg-red-500 mx-auto mb-2"></div>
+          <div class="text-red-600 font-bold uppercase text-sm">MERAH</div>
+          <div class="text-gray-500 text-sm">Belum Siap</div>
+        </div>
+        <div class="text-center">
+          <div class="sensor-dot bg-yellow-400 mx-auto mb-2"></div>
+          <div class="text-yellow-600 font-bold uppercase text-sm">KUNING</div>
+          <div class="text-gray-500 text-sm">Hampir Siap</div>
+        </div>
+        <div class="text-center">
+          <div class="sensor-dot bg-emerald-500 mx-auto mb-2"></div>
+          <div class="text-emerald-700 font-bold uppercase text-sm">HIJAU</div>
+          <div class="text-gray-500 text-sm">Sudah Siap</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step indicator -->
+  <section class="max-w-6xl mx-auto px-4 mt-6">
+    <div class="flex flex-wrap gap-2 justify-center">
+      <span id="st1" class="step active">1. Profil</span>
+      <span id="st2" class="step">2. Drum</span>
+      <span id="st3" class="step">3. Input THG</span>
+      <span id="st4" class="step">4. Pilih Warna</span>
+      <span id="st5" class="step">5. Riwayat Data</span>
+    </div>
+  </section>
+
+  <!-- Konten dinamis -->
+  <main id="stepContent" class="max-w-6xl mx-auto px-4 mt-6 space-y-6"></main>
+
+  <!-- Modal Detail Riwayat per Drum -->
+  <div id="modalDetail" class="fixed inset-0 hidden items-center justify-center backdrop p-4">
+    <div class="absolute inset-0 backdrop backdrop-blur-sm"></div>
+    <div class="relative bg-white rounded-2xl shadow-xl max-w-5xl w-full p-5">
+      <h3 id="detailTitle" class="text-lg font-semibold mb-4">Detail Drum</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-center">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="p-2 border">No</th>
+              <th class="p-2 border">Waktu</th>
+              <th class="p-2 border">Nama</th>
+              <th class="p-2 border">Drum</th>
+              <th class="p-2 border">Suhu</th>
+              <th class="p-2 border">Kelembapan</th>
+              <th class="p-2 border">Gas</th>
+              <th class="p-2 border">pH</th>
+              <th class="p-2 border">Status</th>
+              <th class="p-2 border">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="detailBody"></tbody>
+        </table>
+      </div>
+      <div class="mt-4">
+        <button id="btnCloseDetail" class="w-full bg-gray-700 text-white py-2 rounded-xl">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
