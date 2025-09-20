@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Admin Dashboard — Damayanti</title>
 <style>
 :root{
@@ -10,7 +10,8 @@
   --brand:#2563eb; --ok:#10b981; --warn:#f59e0b; --bad:#ef4444;
   --ring:rgba(37,99,235,.25); --radius:16px
 }
-*{box-sizing:border-box} body{margin:0;background:linear-gradient(#f7fbff,#e9f0ff);font:14px/1.5 system-ui}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(#f7fbff,#e9f0ff);font:14px/1.5 system-ui}
 header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:rgba(255,255,255,.7);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}
 h1{margin:0;font-size:18px}
 .wrap{max-width:1180px;margin:18px auto;padding:0 16px}
@@ -28,11 +29,14 @@ tr:hover td{background:#fafcff}
 input,select,textarea{width:100%;min-height:38px;padding:10px 12px;border:1px solid #d1d5db;border-radius:10px;background:#fff;outline:none}
 input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring);border-color:var(--brand)}
 button{height:38px;padding:0 12px;border:1px solid #d1d5db;background:#fff;border-radius:10px;cursor:pointer}
-.btn{background:var(--brand);border-color:var(--brand);color:#fff}.btn.ok{background:var(--ok);border-color:var(--ok)}
-.btn.warn{background:var(--warn);border-color:var(--warn)} .btn.bad{background:var(--bad);border-color:var(--bad)}
+.btn{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.ok{background:var(--ok);border-color:var(--ok)}
+.btn.warn{background:var(--warn);border-color:var(--warn)}
+.btn.bad{background:var(--bad);border-color:var(--bad)}
 .muted{color:var(--muted)} .right{margin-left:auto}
 .badge{display:inline-block;padding:.15rem .5rem;border-radius:999px;font-size:12px;border:1px solid #e5e7eb;background:#f9fafb}
-.hidden{display:none!important} .note{font-size:12px;color:#6b7280} .mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
+.hidden{display:none!important}
+.note{font-size:12px;color:#6b7280} .mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
 .hr{height:1px;background:#eef2f7;margin:10px 0}
 </style>
 </head>
@@ -215,18 +219,24 @@ function authHeaders(h={}){ return ADMIN_TOKEN ? { ...h, Authorization: "Bearer 
 async function api(path, opts={}) {
   const headers = authHeaders({ "Content-Type":"application/json", ...(opts.headers||{}) });
   const res = await fetch(API_BASE + path, { ...opts, headers });
+
   if (!res.ok) {
-    const t = await res.text().catch(()=>res.statusText);
-    throw new Error(`${res.status} ${res.statusText}: ${t}`);
+    // pesan error yang jelas (tanpa pop-up spam)
+    let msg = `${res.status} ${res.statusText}`;
+    try {
+      const j = await res.json();
+      msg += `: ${j.message || j.error || JSON.stringify(j)}`;
+    } catch {
+      const t = await res.text().catch(()=> "");
+      if (t) msg += `: ${t}`;
+    }
+    throw new Error(msg);
   }
   return res.status===204 ? null : res.json();
 }
 function unwrapList(p){ if(Array.isArray(p)) return p; if(p && Array.isArray(p.data)) return p.data; return []; }
 function fmtDate(x){ try{return new Date(x).toLocaleString()}catch{return x||"-"} }
-function mustAdmin(){
-  if(!ADMIN_TOKEN){ alert("Aksi ini membutuhkan login admin. Silakan login dulu."); return false; }
-  return true;
-}
+function mustAdmin(){ if(!ADMIN_TOKEN){ alert("Aksi ini membutuhkan login admin. Silakan login dulu."); return false; } return true; }
 function showErr(e){ alert(e?.message || "Terjadi kesalahan"); }
 
 /* ====== AUTH ====== */
@@ -240,8 +250,12 @@ qs("#btnLogin").onclick = async ()=>{
   const email=qs("#loginEmail").value.trim(), password=qs("#loginPass").value;
   qs("#loginMsg").textContent="Memproses…";
   try{
-    const data = await fetch(API_BASE+"/api/auth/login",{method:"POST",headers:{ "Content-Type":"application/json" },body:JSON.stringify({email,password})}).then(r=>r.json());
-    ADMIN_TOKEN = data?.token || data?.access_token; if(!ADMIN_TOKEN) throw new Error("Token tidak ditemukan di respons.");
+    const data = await fetch(API_BASE+"/api/auth/login",{
+      method:"POST",headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({email,password})
+    }).then(r=>r.json());
+    ADMIN_TOKEN = data?.token || data?.access_token; 
+    if(!ADMIN_TOKEN) throw new Error("Token tidak ditemukan di respons.");
     localStorage.setItem("damayanti_token", ADMIN_TOKEN);
     qs("#loginMsg").textContent="Berhasil masuk.";
     syncAuthUI(); boot();
@@ -250,7 +264,9 @@ qs("#btnLogin").onclick = async ()=>{
 btnLogout.onclick = ()=>{ ADMIN_TOKEN=null; localStorage.removeItem("damayanti_token"); syncAuthUI(); };
 
 /* ====== TABS ====== */
-const tabs = qs("#tabs"); tabs.onclick = (e)=>{ const t=e.target.closest(".tab"); if(!t) return;
+const tabs = qs("#tabs");
+tabs.onclick = (e)=>{
+  const t=e.target.closest(".tab"); if(!t) return;
   qsa(".tab").forEach(x=>x.classList.remove("active")); t.classList.add("active");
   qsa('[id^="tab-"]').forEach(x=>x.classList.add("hidden")); qs("#tab-"+t.dataset.tab).classList.remove("hidden");
   if(t.dataset.tab==="summary") loadSummary();
@@ -290,18 +306,21 @@ async function loadSummary(){
 /* ====== CONTAINERS (CRUD) ====== */
 let cacheContainers=[];
 async function loadContainers(){
+  const tb = qs("#tblContainers tbody");
   try{
     cacheContainers = unwrapList(await api("/api/containers?limit=500"));
     renderContainerTable(cacheContainers);
     qs("#searchContainers").oninput = (e)=>{
       const q = e.target.value.toLowerCase();
-      renderContainerTable(cacheContainers.filter(c=>((c.name||c.code||"")+ (c.location||"")).toLowerCase().includes(q)));
+      renderContainerTable(cacheContainers.filter(c=>((c.name||c.code||"")+(c.location||"")).toLowerCase().includes(q)));
     };
-    qs("#btnNewContainer").onclick = ()=>{
-      if(!mustAdmin()) return;
-      showContainerForm();
-    };
-  }catch(e){ showErr(e); }
+    qs("#btnNewContainer").onclick = ()=>{ if(!mustAdmin()) return; showContainerForm(); };
+  }catch(e){
+    tb.innerHTML = `<tr><td colspan="5" class="muted">
+      Gagal memuat containers: ${e.message}.
+      ${/user_id does not exist/i.test(e.message) ? "Ini bug di backend (kolom user_id tidak ada)." : ""}
+    </td></tr>`;
+  }
 }
 function renderContainerTable(list){
   const tb = qs("#tblContainers tbody");
@@ -351,14 +370,18 @@ function showContainerForm(item){
 let cacheStudents=[];
 async function loadStudents(){
   try{
-    cacheStudents = unwrapList(await api("/api/students?limit=500").catch(()=>({data:[]})));
+    const res = await api("/api/students?limit=500").catch(()=>({data:[]}));
+    cacheStudents = Array.isArray(res) ? res : (res.data || []);
     renderStudentTable(cacheStudents);
     qs("#searchStudents").oninput = (e)=>{
       const q=e.target.value.toLowerCase();
       renderStudentTable(cacheStudents.filter(s=>(s.full_name||s.name||"").toLowerCase().includes(q)));
     };
     qs("#btnNewStudent").onclick = ()=>{ if(!mustAdmin()) return; showStudentForm(); };
-  }catch(e){ showErr(e); }
+  }catch(e){
+    const tb = qs("#tblStudents tbody");
+    tb.innerHTML = `<tr><td colspan="4" class="muted">Gagal memuat students: ${e.message}</td></tr>`;
+  }
 }
 function renderStudentTable(list){
   const tb = qs("#tblStudents tbody");
@@ -384,12 +407,14 @@ function showStudentForm(item){
   openModal(item?"Ubah Student":"Tambah Student", `
     <div><label class="muted">Nama Lengkap</label><input id="sName" value="${item?.full_name||item?.name||""}"></div>
     <div class="toolbar mt16"><button id="saveS" class="btn">${item?"Simpan":"Buat"}</button></div>
-    <div class="note">Endpoint: ${item? "PUT /api/students/{id}" : "POST /api/students"} — field: <b>full_name</b></div>
+    <div class="note">Endpoint: ${item? "PUT /api/students/{id}" : "POST /api/students"} — field: <b>name</b>/<b>full_name</b></div>
   `);
   qs("#saveS").onclick = async ()=>{
     if(!mustAdmin()) return;
-    const payload = { full_name: qs("#sName").value.trim() };
-    if(!payload.full_name){ alert("Nama wajib diisi."); return; }
+    const nm = qs("#sName").value.trim();
+    if(!nm){ alert("Nama wajib diisi."); return; }
+    // kirim dua-duanya agar kompatibel
+    const payload = { name: nm, full_name: nm };
     try{
       const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
       if(item) await api("/api/students/"+item.id, opts); else await api("/api/students", opts);
@@ -409,7 +434,10 @@ async function loadSheeps(){
       renderSheeps(cacheSheeps.filter(s=>(s.name||"").toLowerCase().includes(q)));
     };
     qs("#btnNewSheep").onclick = ()=>{ if(!mustAdmin()) return; showSheepForm(); };
-  }catch(e){ showErr(e); }
+  }catch(e){
+    const tb = qs("#tblSheeps tbody");
+    tb.innerHTML = `<tr><td colspan="5" class="muted">Gagal memuat sheeps: ${e.message}</td></tr>`;
+  }
 }
 function renderSheeps(list){
   const tb = qs("#tblSheeps tbody");
@@ -456,14 +484,21 @@ function showSheepForm(item){
 /* ====== SENSOR DATA ====== */
 let cacheSensor=[], containersMini=[];
 async function loadSensor(){
+  const tb = qs("#tblSensor tbody");
   try{
     containersMini = unwrapList(await api("/api/containers?limit=500"));
     const sel=qs("#filterSensorContainer");
     sel.innerHTML = `<option value="">Semua container</option>`+containersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("");
+
     cacheSensor = unwrapList(await api("/api/sensor-data?limit=500"));
     renderSensorTable(); sel.onchange=renderSensorTable;
     qs("#btnNewSensor").onclick = ()=>showSensorForm();
-  }catch(e){ showErr(e); }
+  }catch(e){
+    tb.innerHTML = `<tr><td colspan="9" class="muted">
+      Gagal memuat sensor data: ${e.message}.
+      ${/user_id does not exist/i.test(e.message) ? "Ini bug di backend (kolom user_id tidak ada)." : ""}
+    </td></tr>`;
+  }
 }
 function renderSensorTable(){
   const cid=qs("#filterSensorContainer").value;
@@ -481,7 +516,9 @@ function renderSensorTable(){
   tb.onclick = async (e)=>{
     const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
     if(ed){ const it=cacheSensor.find(x=>x.id===ed.dataset.ed); showSensorForm(it); }
-    if(del){ if(!confirm("Hapus record ini?")) return; try{ await api("/api/sensor-data/"+del.dataset.del,{method:"DELETE"}); loadSensor(); }catch(err){ showErr(err); } }
+    if(del){ if(!confirm("Hapus record ini?")) return;
+      try{ await api("/api/sensor-data/"+del.dataset.del,{method:"DELETE"}); loadSensor(); }catch(err){ showErr(err); }
+    }
   };
 }
 function showSensorForm(item){
@@ -514,14 +551,22 @@ function showSensorForm(item){
 /* ====== REPORTS ====== */
 let cacheReports=[];
 async function loadReports(){
+  const tb = qs("#tblReports tbody");
   try{
     containersMini = unwrapList(await api("/api/containers?limit=500"));
-    qs("#filterReportContainer").innerHTML = `<option value="">Semua container</option>`+containersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("");
+    qs("#filterReportContainer").innerHTML = `<option value="">Semua container</option>`+
+      containersMini.map(c=>`<option value="${c.id}">${c.name||c.code||c.id}</option>`).join("");
+
     cacheReports = unwrapList(await api("/api/reports?limit=500"));
     renderReportsTable();
     qs("#filterReportContainer").onchange = renderReportsTable;
     qs("#btnNewReport").onclick = ()=>showReportForm();
-  }catch(e){ showErr(e); }
+  }catch(e){
+    tb.innerHTML = `<tr><td colspan="5" class="muted">
+      Gagal memuat reports: ${e.message}.
+      ${/user_id does not exist/i.test(e.message) ? "Ini bug di backend (kolom user_id tidak ada)." : ""}
+    </td></tr>`;
+  }
 }
 function renderReportsTable(){
   const cid = qs("#filterReportContainer").value;
@@ -566,7 +611,10 @@ async function loadSheepReports(){
     renderSheepReportsTable();
     qs("#filterSheep").onchange = renderSheepReportsTable;
     qs("#btnNewSheepReport").onclick = ()=>showSheepReportForm();
-  }catch(e){ showErr(e); }
+  }catch(e){
+    const tb = qs("#tblSheepReports tbody");
+    tb.innerHTML = `<tr><td colspan="5" class="muted">Gagal memuat sheep reports: ${e.message}</td></tr>`;
+  }
 }
 function renderSheepReportsTable(){
   const sid = qs("#filterSheep").value;
