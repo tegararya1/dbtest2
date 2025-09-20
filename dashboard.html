@@ -403,23 +403,33 @@ function renderStudentTable(list){
   };
 }
 function showStudentForm(item){
-  openModal(item?"Ubah Student":"Tambah Student", `
-    <div><label class="muted">Nama Lengkap</label><input id="sName" value="${item?.name||item?.full_name||""}"></div>
-    <div class="toolbar mt16"><button id="saveS" class="btn">${item?"Simpan":"Buat"}</button></div>
-    <div class="note">Endpoint: ${item? "PUT /api/students/{id}" : "POST /api/students"} — field <b>name</b> saja</div>
+  openModal(item ? "Ubah Student" : "Tambah Student", `
+    <div>
+      <label class="muted">Nama Lengkap</label>
+      <input id="sName" minlength="3" value="${item?.name || item?.full_name || ""}" placeholder="Minimal 3 huruf">
+    </div>
+    <div class="toolbar mt16">
+      <button id="saveS" class="btn">${item ? "Simpan" : "Buat"}</button>
+    </div>
+    <div class="note">
+      Endpoint: ${item ? "PUT /api/students/{id}" : "POST /api/students"} — field dikirim: <b>full_name</b> & <b>name</b>
+    </div>
   `);
+
   qs("#saveS").onclick = async ()=>{
     if(!mustAdmin()) return;
     const nm = qs("#sName").value.trim();
-    if(!nm){ alert("Nama wajib diisi."); return; }
-    const payload = { name: nm };  // ← hanya name
+    if (nm.length < 3) { alert("Nama minimal 3 karakter."); return; }
+    const payload = { full_name: nm, name: nm }; // <-- kirim dua-duanya
     try{
-      const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
-      if(item) await api("/api/students/"+item.id, opts); else await api("/api/students", opts);
+      const opts = { method: item ? "PUT" : "POST", body: JSON.stringify(payload) };
+      if(item) await api("/api/students/"+item.id, opts);
+      else     await api("/api/students", opts);
       modal.classList.add("hidden"); loadStudents();
     }catch(e){ showErr(e); }
   };
 }
+
 
 /* ====== SHEEPS (CRUD) — tanpa umur ====== */
 let cacheSheeps=[];
@@ -655,3 +665,4 @@ syncAuthUI(); if(ADMIN_TOKEN) boot();
 </script>
 </body>
 </html>
+
