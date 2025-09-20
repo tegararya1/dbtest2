@@ -126,7 +126,7 @@ button{height:38px;padding:0 12px;border:1px solid #d1d5db;background:#fff;borde
       </div>
     </div>
 
-    <!-- SHEEPS -->
+    <!-- SHEEPS (tanpa umur) -->
     <div id="tab-sheeps" class="mt16 hidden">
       <div class="card">
         <div class="toolbar">
@@ -137,8 +137,8 @@ button{height:38px;padding:0 12px;border:1px solid #d1d5db;background:#fff;borde
         </div>
         <div class="mt12" style="overflow:auto">
           <table id="tblSheeps">
-            <thead><tr><th>ID</th><th>Nama</th><th>Umur</th><th>Dibuat</th><th style="width:160px">Aksi</th></tr></thead>
-            <tbody><tr><td colspan="5" class="muted">Memuat…</td></tr></tbody>
+            <thead><tr><th>ID</th><th>Nama</th><th>Dibuat</th><th style="width:160px">Aksi</th></tr></thead>
+            <tbody><tr><td colspan="4" class="muted">Memuat…</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -221,7 +221,6 @@ async function api(path, opts={}) {
   const res = await fetch(API_BASE + path, { ...opts, headers });
 
   if (!res.ok) {
-    // pesan error yang jelas (tanpa pop-up spam)
     let msg = `${res.status} ${res.statusText}`;
     try {
       const j = await res.json();
@@ -366,7 +365,7 @@ function showContainerForm(item){
   };
 }
 
-/* ====== STUDENTS (CRUD) ====== */
+/* ====== STUDENTS (CRUD) — kirim {name} saja ====== */
 let cacheStudents=[];
 async function loadStudents(){
   try{
@@ -375,7 +374,7 @@ async function loadStudents(){
     renderStudentTable(cacheStudents);
     qs("#searchStudents").oninput = (e)=>{
       const q=e.target.value.toLowerCase();
-      renderStudentTable(cacheStudents.filter(s=>(s.full_name||s.name||"").toLowerCase().includes(q)));
+      renderStudentTable(cacheStudents.filter(s=>(s.name||s.full_name||"").toLowerCase().includes(q)));
     };
     qs("#btnNewStudent").onclick = ()=>{ if(!mustAdmin()) return; showStudentForm(); };
   }catch(e){
@@ -388,7 +387,7 @@ function renderStudentTable(list){
   tb.innerHTML = list.length ? list.map(s=>`
     <tr>
       <td class="muted">${s.id}</td>
-      <td>${s.full_name||s.name||"-"}</td>
+      <td>${s.name||s.full_name||"-"}</td>
       <td class="muted">${fmtDate(s.created_at)}</td>
       <td>
         <button class="btn warn" data-ed="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Ubah</button>
@@ -405,16 +404,15 @@ function renderStudentTable(list){
 }
 function showStudentForm(item){
   openModal(item?"Ubah Student":"Tambah Student", `
-    <div><label class="muted">Nama Lengkap</label><input id="sName" value="${item?.full_name||item?.name||""}"></div>
+    <div><label class="muted">Nama Lengkap</label><input id="sName" value="${item?.name||item?.full_name||""}"></div>
     <div class="toolbar mt16"><button id="saveS" class="btn">${item?"Simpan":"Buat"}</button></div>
-    <div class="note">Endpoint: ${item? "PUT /api/students/{id}" : "POST /api/students"} — field: <b>name</b>/<b>full_name</b></div>
+    <div class="note">Endpoint: ${item? "PUT /api/students/{id}" : "POST /api/students"} — field <b>name</b> saja</div>
   `);
   qs("#saveS").onclick = async ()=>{
     if(!mustAdmin()) return;
     const nm = qs("#sName").value.trim();
     if(!nm){ alert("Nama wajib diisi."); return; }
-    // kirim dua-duanya agar kompatibel
-    const payload = { name: nm, full_name: nm };
+    const payload = { name: nm };  // ← hanya name
     try{
       const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
       if(item) await api("/api/students/"+item.id, opts); else await api("/api/students", opts);
@@ -423,7 +421,7 @@ function showStudentForm(item){
   };
 }
 
-/* ====== SHEEPS (CRUD) ====== */
+/* ====== SHEEPS (CRUD) — tanpa umur ====== */
 let cacheSheeps=[];
 async function loadSheeps(){
   try{
@@ -436,7 +434,7 @@ async function loadSheeps(){
     qs("#btnNewSheep").onclick = ()=>{ if(!mustAdmin()) return; showSheepForm(); };
   }catch(e){
     const tb = qs("#tblSheeps tbody");
-    tb.innerHTML = `<tr><td colspan="5" class="muted">Gagal memuat sheeps: ${e.message}</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="4" class="muted">Gagal memuat sheeps: ${e.message}</td></tr>`;
   }
 }
 function renderSheeps(list){
@@ -445,13 +443,12 @@ function renderSheeps(list){
     <tr>
       <td class="muted">${s.id}</td>
       <td>${s.name||"-"}</td>
-      <td>${s.age ?? "-"}</td>
       <td class="muted">${fmtDate(s.created_at)}</td>
       <td>
         <button class="btn warn" data-ed="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Ubah</button>
         <button class="btn bad" data-del="${s.id}" ${!ADMIN_TOKEN?'disabled':''}>Hapus</button>
       </td>
-    </tr>`).join("") : `<tr><td colspan="5" class="muted">Tidak ada data.</td></tr>`;
+    </tr>`).join("") : `<tr><td colspan="4" class="muted">Tidak ada data.</td></tr>`;
   tb.onclick = async (e)=>{
     const ed=e.target.closest("[data-ed]"), del=e.target.closest("[data-del]");
     if(ed){ if(!mustAdmin()) return; const it=cacheSheeps.find(x=>x.id===ed.dataset.ed); showSheepForm(it); }
@@ -462,16 +459,13 @@ function renderSheeps(list){
 }
 function showSheepForm(item){
   openModal(item?"Ubah Sheep":"Tambah Sheep", `
-    <div class="grid g2">
-      <div><label class="muted">Nama</label><input id="shName" value="${item?.name||""}"></div>
-      <div><label class="muted">Umur (tahun)</label><input id="shAge" type="number" step="1" value="${item?.age ?? ""}"></div>
-    </div>
+    <div><label class="muted">Nama</label><input id="shName" value="${item?.name||""}"></div>
     <div class="toolbar mt16"><button id="saveSh" class="btn">${item?"Simpan":"Buat"}</button></div>
     <div class="note">Endpoint: ${item? "PUT /api/sheeps/{id}" : "POST /api/sheeps"}</div>
   `);
   qs("#saveSh").onclick = async ()=>{
     if(!mustAdmin()) return;
-    const payload = { name: qs("#shName").value.trim(), age: Number(qs("#shAge").value||0) };
+    const payload = { name: qs("#shName").value.trim() };
     if(!payload.name){ alert("Nama wajib diisi."); return; }
     try{
       const opts = { method: item?"PUT":"POST", body: JSON.stringify(payload) };
